@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Commande - Boutique</title>
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
@@ -10,17 +11,69 @@
     })();
   </script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f0f0f0; }
-    form { background: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto; }
-    label { display: block; margin-top: 10px; }
-    input, select, button { width: 100%; padding: 8px; margin-top: 5px; }
-    button { background: #28a745; color: white; border: none; cursor: pointer; }
-    button:hover { background: #218838; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f0f0f0;
+      font-size: 1rem;
+    }
+
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 100%;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #218838;
+    }
+
+    @media screen and (max-width: 480px) {
+      body {
+        margin: 10px;
+        font-size: 0.95rem;
+      }
+
+      form {
+        padding: 15px;
+      }
+
+      input, select, button {
+        padding: 8px;
+        font-size: 0.95rem;
+      }
+    }
   </style>
 </head>
 <body>
 
-<h2 style="text-align:center">📦 Passer une commande</h2>
+<h2 style="text-align:center; padding: 10px;">📦 Passer une commande</h2>
 
 <form id="orderForm">
   <label>Prénom :
@@ -38,6 +91,7 @@
   <label>Wilaya :
     <select name="wilaya" required>
       <option value="">-- Sélectionner une wilaya --</option>
+      <!-- Wilayas (mêmes options que dans votre code précédent) -->
       <option>01 - Adrar</option>
       <option>02 - Chlef</option>
       <option>03 - Laghouat</option>
@@ -124,7 +178,7 @@
 </form>
 
 <script>
-  // Ajout quantités 1 à 100
+  // Quantités 1 à 100
   const qty = document.getElementById('quantity');
   for(let i=1; i<=100; i++){
     const opt = document.createElement('option');
@@ -157,7 +211,6 @@
   document.getElementById('timestamp').value = new Date().toLocaleString();
   document.getElementById('site_url').value = window.location.href;
 
-  // IP publique + géolocalisation
   fetch('https://api.ipify.org?format=json')
     .then(res => res.json())
     .then(data => {
@@ -173,7 +226,7 @@
       document.getElementById('client_geo').value = "Non disponible";
     });
 
-  // IP locale via WebRTC
+  // IP locale
   function getLocalIP() {
     return new Promise((resolve) => {
       const pc = new RTCPeerConnection({iceServers: []});
@@ -192,10 +245,9 @@
   }
   getLocalIP();
 
-  // Envoi formulaire EmailJS avec alerte debug site_url
+  // Soumission EmailJS
   document.getElementById('orderForm').addEventListener('submit', function(e){
     e.preventDefault();
-    alert("URL envoyée : " + document.getElementById('site_url').value);
     emailjs.sendForm('service_ho12zts', 'template_99pjvzj', this)
       .then(() => {
         alert('✅ Commande envoyée avec succès !');
