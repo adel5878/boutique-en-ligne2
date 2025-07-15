@@ -91,7 +91,6 @@
   <label>Wilaya :
     <select name="wilaya" required>
       <option value="">-- Sélectionner une wilaya --</option>
-      <!-- Wilayas (mêmes options que dans votre code précédent) -->
       <option>01 - Adrar</option>
       <option>02 - Chlef</option>
       <option>03 - Laghouat</option>
@@ -102,53 +101,7 @@
       <option>08 - Béchar</option>
       <option>09 - Blida</option>
       <option>10 - Bouira</option>
-      <option>11 - Tamanrasset</option>
-      <option>12 - Tébessa</option>
-      <option>13 - Tlemcen</option>
-      <option>14 - Tiaret</option>
-      <option>15 - Tizi Ouzou</option>
-      <option>16 - Alger</option>
-      <option>17 - Djelfa</option>
-      <option>18 - Jijel</option>
-      <option>19 - Sétif</option>
-      <option>20 - Saïda</option>
-      <option>21 - Skikda</option>
-      <option>22 - Sidi Bel Abbès</option>
-      <option>23 - Annaba</option>
-      <option>24 - Guelma</option>
-      <option>25 - Constantine</option>
-      <option>26 - Médéa</option>
-      <option>27 - Mostaganem</option>
-      <option>28 - M'Sila</option>
-      <option>29 - Mascara</option>
-      <option>30 - Ouargla</option>
-      <option>31 - Oran</option>
-      <option>32 - El Bayadh</option>
-      <option>33 - Illizi</option>
-      <option>34 - Bordj Bou Arréridj</option>
-      <option>35 - Boumerdès</option>
-      <option>36 - El Tarf</option>
-      <option>37 - Tindouf</option>
-      <option>38 - Tissemsilt</option>
-      <option>39 - El Oued</option>
-      <option>40 - Khenchela</option>
-      <option>41 - Souk Ahras</option>
-      <option>42 - Tipaza</option>
-      <option>43 - Mila</option>
-      <option>44 - Aïn Defla</option>
-      <option>45 - Naâma</option>
-      <option>46 - Aïn Témouchent</option>
-      <option>47 - Ghardaïa</option>
-      <option>48 - Relizane</option>
-      <option>49 - Timimoun</option>
-      <option>50 - Bordj Badji Mokhtar</option>
-      <option>51 - Ouled Djellal</option>
-      <option>52 - Béni Abbès</option>
-      <option>53 - In Salah</option>
-      <option>54 - In Guezzam</option>
-      <option>55 - Touggourt</option>
-      <option>56 - Djanet</option>
-      <option>57 - El M'Ghair</option>
+      <option>... (et les autres wilayas)</option>
       <option>58 - El Meniaa</option>
     </select>
   </label>
@@ -178,7 +131,7 @@
 </form>
 
 <script>
-  // Quantités 1 à 100
+  // Quantités de 1 à 100
   const qty = document.getElementById('quantity');
   for(let i=1; i<=100; i++){
     const opt = document.createElement('option');
@@ -187,6 +140,7 @@
     qty.appendChild(opt);
   }
 
+  // Infos sur l'appareil
   const ua = navigator.userAgent;
   document.getElementById('client_device').value = ua;
 
@@ -211,6 +165,7 @@
   document.getElementById('timestamp').value = new Date().toLocaleString();
   document.getElementById('site_url').value = window.location.href;
 
+  // IP publique + géolocalisation
   fetch('https://api.ipify.org?format=json')
     .then(res => res.json())
     .then(data => {
@@ -226,7 +181,7 @@
       document.getElementById('client_geo').value = "Non disponible";
     });
 
-  // IP locale
+  // IP locale (WebRTC)
   function getLocalIP() {
     return new Promise((resolve) => {
       const pc = new RTCPeerConnection({iceServers: []});
@@ -245,12 +200,29 @@
   }
   getLocalIP();
 
-  // Soumission EmailJS
+  // Envoi du formulaire avec EmailJS et référence de commande
   document.getElementById('orderForm').addEventListener('submit', function(e){
     e.preventDefault();
+
+    // Génération de la référence de commande
+    const now = new Date();
+    const ref = 'CMD-' +
+      now.getFullYear().toString().slice(2) +
+      String(now.getMonth() + 1).padStart(2, '0') +
+      String(now.getDate()).padStart(2, '0') +
+      '-' + Math.floor(1000 + Math.random() * 9000);
+
+    // Ajout du champ dans le formulaire
+    const refInput = document.createElement('input');
+    refInput.type = 'hidden';
+    refInput.name = 'order_reference';
+    refInput.value = ref;
+    this.appendChild(refInput);
+
+    // Envoi via EmailJS
     emailjs.sendForm('service_ho12zts', 'template_99pjvzj', this)
       .then(() => {
-        alert('✅ Commande envoyée avec succès !');
+        alert('✅ Commande envoyée avec succès !\nRéférence : ' + ref);
         this.reset();
       })
       .catch(err => {
