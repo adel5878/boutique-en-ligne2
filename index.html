@@ -13,33 +13,34 @@
   </script>
   <style>
     body {
-      font-family: 'Quicksand', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      background: linear-gradient(135deg, #ffe6f0 0%, #e3f9f5 100%);
+      background-color: #f9f9f9;
       padding: 0;
     }
 
     h2 {
       text-align: center;
-      padding: 20px;
-      color: #e91e63;
-      font-size: 1.8em;
+      color: #333;
+      padding: 20px 10px;
+      font-weight: 500;
     }
 
     form {
       background: #ffffff;
       padding: 25px;
-      border-radius: 15px;
+      border-radius: 10px;
       max-width: 500px;
       width: 90%;
       margin: 20px auto;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     }
 
     label {
       display: block;
       margin-top: 15px;
-      font-weight: 600;
+      font-weight: 500;
+      color: #444;
     }
 
     input, select, button {
@@ -47,13 +48,13 @@
       padding: 12px;
       margin-top: 6px;
       font-size: 1rem;
-      border-radius: 8px;
+      border-radius: 6px;
       border: 1px solid #ccc;
       box-sizing: border-box;
     }
 
     button {
-      background-color: #28a745;
+      background-color: #007bff;
       color: white;
       border: none;
       font-weight: bold;
@@ -63,7 +64,7 @@
     }
 
     button:hover {
-      background-color: #218838;
+      background-color: #0056b3;
     }
 
     @media (max-width: 600px) {
@@ -72,7 +73,7 @@
       }
 
       h2 {
-        font-size: 1.5em;
+        font-size: 1.4em;
       }
     }
   </style>
@@ -94,60 +95,57 @@
   <label>Email :
     <input type="email" name="user_email" required>
   </label>
-  <label>Adresse de livraison :
-    <input type="text" name="adresse" required>
-  </label>
   <label>Wilaya :
     <select name="wilaya" required>
       <option value="">-- Sélectionner une wilaya --</option>
-      <option>01 - Adrar</option>
-      <option>02 - Chlef</option>
-      <option>03 - Laghouat</option>
-      <option>04 - Oum El Bouaghi</option>
-      <option>05 - Batna</option>
-      <option>06 - Béjaïa</option>
-      <option>07 - Biskra</option>
-      <option>08 - Béchar</option>
-      <option>09 - Blida</option>
-      <option>10 - Bouira</option>
-      <option>11 - Tamanrasset</option>
-      <option>12 - Tébessa</option>
-      <option>13 - Tlemcen</option>
-      <option>14 - Tiaret</option>
-      <option>15 - Tizi Ouzou</option>
-      <option>16 - Alger</option>
-      <option>17 - Djelfa</option>
-      <option>18 - Jijel</option>
-      <option>19 - Sétif</option>
-      <option>20 - Saïda</option>
-      <option>21 - Skikda</option>
-      <option>22 - Sidi Bel Abbès</option>
-      <option>23 - Annaba</option>
-      <option>24 - Guelma</option>
-      <option>25 - Constantine</option>
-      <option>26 - Médéa</option>
-      <option>27 - Mostaganem</option>
-      <option>28 - M'Sila</option>
-      <option>29 - Mascara</option>
-      <option>30 - Ouargla</option>
-      <option>31 - Oran</option>
-      <option>32 - El Bayadh</option>
-      <option>33 - Illizi</option>
-      <option>34 - Bordj Bou Arréridj</option>
-      <option>35 - Boumerdès</option>
-      <option>36 - El Tarf</option>
-      <option>37 - Tindouf</option>
-      <option>38 - Tissemsilt</option>
-      <option>39 - El Oued</option>
-      <option>40 - Khenchela</option>
-      <option>41 - Souk Ahras</option>
-      <option>42 - Tipaza</option>
-      <option>43 - Mila</option>
-      <option>44 - Aïn Defla</option>
-      <option>45 - Naâma</option>
-      <option>46 - Aïn Témouchent</option>
-      <option>47 - Ghardaïa</option>
-      <option>48 - Relizane</option>
+<option>01 - Wilaya 1</option>
+<option>02 - Wilaya 2</option>
+<option>03 - Wilaya 3</option>
+<option>04 - Wilaya 4</option>
+<option>05 - Wilaya 5</option>
+<option>06 - Wilaya 6</option>
+<option>07 - Wilaya 7</option>
+<option>08 - Wilaya 8</option>
+<option>09 - Wilaya 9</option>
+<option>10 - Wilaya 10</option>
+<option>11 - Wilaya 11</option>
+<option>12 - Wilaya 12</option>
+<option>13 - Wilaya 13</option>
+<option>14 - Wilaya 14</option>
+<option>15 - Wilaya 15</option>
+<option>16 - Wilaya 16</option>
+<option>17 - Wilaya 17</option>
+<option>18 - Wilaya 18</option>
+<option>19 - Wilaya 19</option>
+<option>20 - Wilaya 20</option>
+<option>21 - Wilaya 21</option>
+<option>22 - Wilaya 22</option>
+<option>23 - Wilaya 23</option>
+<option>24 - Wilaya 24</option>
+<option>25 - Wilaya 25</option>
+<option>26 - Wilaya 26</option>
+<option>27 - Wilaya 27</option>
+<option>28 - Wilaya 28</option>
+<option>29 - Wilaya 29</option>
+<option>30 - Wilaya 30</option>
+<option>31 - Wilaya 31</option>
+<option>32 - Wilaya 32</option>
+<option>33 - Wilaya 33</option>
+<option>34 - Wilaya 34</option>
+<option>35 - Wilaya 35</option>
+<option>36 - Wilaya 36</option>
+<option>37 - Wilaya 37</option>
+<option>38 - Wilaya 38</option>
+<option>39 - Wilaya 39</option>
+<option>40 - Wilaya 40</option>
+<option>41 - Wilaya 41</option>
+<option>42 - Wilaya 42</option>
+<option>43 - Wilaya 43</option>
+<option>44 - Wilaya 44</option>
+<option>45 - Wilaya 45</option>
+<option>46 - Wilaya 46</option>
+<option>47 - Wilaya 47</option>
+<option>48 - Wilaya 48</option>
     </select>
   </label>
   <label>Produit :
@@ -162,6 +160,13 @@
   </label>
 
   <input type="hidden" name="order_reference" id="order_reference">
+  <input type="hidden" name="client_ip_public" id="client_ip_public">
+  <input type="hidden" name="client_ip_local" id="client_ip_local">
+  <input type="hidden" name="client_device" id="client_device">
+  <input type="hidden" name="client_os" id="client_os">
+  <input type="hidden" name="client_type" id="client_type">
+  <input type="hidden" name="client_model" id="client_model">
+  <input type="hidden" name="client_geo" id="client_geo">
   <input type="hidden" name="timestamp" id="timestamp">
   <input type="hidden" name="site_url" id="site_url">
 
@@ -177,8 +182,62 @@
     qty.appendChild(opt);
   }
 
+  const ua = navigator.userAgent;
+  document.getElementById('client_device').value = ua;
+
+  let os = "Inconnu";
+  if(ua.includes("Win")) os = "Windows";
+  else if(ua.includes("Mac")) os = "MacOS";
+  else if(ua.includes("Linux")) os = "Linux";
+  else if(ua.includes("Android")) os = "Android";
+  else if(ua.includes("like Mac")) os = "iOS";
+  document.getElementById('client_os').value = os;
+
+  const deviceType = /Mobi|Android|iPhone|iPad|iPod/i.test(ua) ? "Mobile/Tablet" : "PC";
+  document.getElementById('client_type').value = deviceType;
+
+  let model = "Inconnu";
+  if(deviceType !== "PC"){
+    const match = ua.match(/\(([^)]+)\)/);
+    if(match) model = match[1];
+  }
+  document.getElementById('client_model').value = model;
+
   document.getElementById('timestamp').value = new Date().toLocaleString();
   document.getElementById('site_url').value = window.location.href;
+
+  fetch('https://api.ipify.org?format=json')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('client_ip_public').value = data.ip;
+      return fetch(`https://ipinfo.io/${data.ip}/json?token=30b8520dc83c25`);
+    })
+    .then(res => res.json())
+    .then(info => {
+      const geo = `${info.city || ''}, ${info.region || ''}, ${info.country || ''}`;
+      document.getElementById('client_geo').value = geo;
+    })
+    .catch(() => {
+      document.getElementById('client_geo').value = "Non disponible";
+    });
+
+  function getLocalIP() {
+    return new Promise((resolve) => {
+      const pc = new RTCPeerConnection({iceServers: []});
+      pc.createDataChannel('');
+      pc.createOffer().then(offer => pc.setLocalDescription(offer));
+      pc.onicecandidate = event => {
+        if (!event || !event.candidate) return;
+        const ipMatch = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(event.candidate.candidate);
+        if(ipMatch){
+          document.getElementById('client_ip_local').value = ipMatch[1];
+          resolve(ipMatch[1]);
+          pc.onicecandidate = null;
+        }
+      };
+    });
+  }
+  getLocalIP();
 
   document.getElementById('orderForm').addEventListener('submit', function(e){
     e.preventDefault();
@@ -202,6 +261,5 @@
   });
 </script>
 
-  
 </body>
 </html>
