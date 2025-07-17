@@ -109,29 +109,12 @@
   form button[type="submit"]:hover {
     background: #1e7e34;
   }
-  .summary {
-    max-width: 600px;
-    margin: 0 auto 40px;
-    background: #e9f5ff;
-    padding: 15px 20px;
-    border-radius: 10px;
-    box-shadow: inset 0 0 5px #007BFF;
-    display: none;
-  }
-  .summary h4 {
-    margin-top: 0;
-    color: #007BFF;
-  }
-  .summary p {
-    margin: 6px 0;
-    font-size: 1rem;
-  }
 
   @media (max-width: 650px) {
     .products {
       grid-template-columns: 1fr;
     }
-    form, .summary {
+    form {
       max-width: 90%;
     }
   }
@@ -142,14 +125,6 @@
 <h2>Nos Produits</h2>
 <div class="products" id="productsContainer">
   <!-- Cartes générées via JS -->
-</div>
-
-<div class="summary" id="orderSummary">
-  <h4>Résumé de votre commande</h4>
-  <p id="summaryProduct"></p>
-  <p id="summaryQuantity"></p>
-  <p id="summaryWilaya"></p>
-  <p id="summaryClient"></p>
 </div>
 
 <form id="orderForm">
@@ -238,14 +213,6 @@
 
   <button type="submit">Confirmer la commande</button>
 </form>
-
-<div class="summary" id="orderSummary" style="display:none;">
-  <h4>Résumé de votre commande</h4>
-  <p id="summaryProduct"></p>
-  <p id="summaryQuantity"></p>
-  <p id="summaryWilaya"></p>
-  <p id="summaryClient"></p>
-</div>
 
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
@@ -382,35 +349,12 @@
     // Générer numéro commande
     document.getElementById('order_reference').value = generateOrderNumber();
 
-    // Afficher formulaire et résumé
+    // Afficher formulaire (le résumé a été retiré)
     document.getElementById('orderForm').style.display = 'block';
-    document.getElementById('orderSummary').style.display = 'block';
-
-    updateSummary();
 
     // Scroll vers formulaire
     window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
   }
-
-  function updateSummary() {
-    const qty = document.getElementById('quantity').value || 1;
-    const wilayaSelect = document.getElementById('wilaya');
-    const wilaya = wilayaSelect.options[wilayaSelect.selectedIndex]?.text || '';
-
-    document.getElementById('summaryProduct').textContent = `Produit : ${selectedProduct ? selectedProduct.name : "[Non sélectionné]"}`;
-    document.getElementById('summaryQuantity').textContent = `Quantité : ${qty}`;
-    document.getElementById('summaryWilaya').textContent = `Adresse de livraison : ${wilaya}`;
-
-    const prenom = document.getElementById('prenom').value || "[Non renseigné]";
-    const nom = document.getElementById('nom').value || "[Non renseigné]";
-    const email = document.getElementById('user_email').value || "[Non renseigné]";
-    document.getElementById('summaryClient').textContent = `Client : ${prenom} ${nom} - Email : ${email}`;
-  }
-
-  // Mise à jour dynamique du résumé au changement de champs
-  ['quantity','wilaya','prenom','nom','user_email'].forEach(id=>{
-    document.getElementById(id).addEventListener('input', updateSummary);
-  });
 
   function generateOrderNumber() {
     const now = new Date();
@@ -424,7 +368,6 @@
   document.getElementById('orderForm').addEventListener('submit', function(e){
     e.preventDefault();
 
-    // Juste avant l’envoi on remet à jour le produit sélectionné dans l’input caché
     if(selectedProduct){
       document.getElementById('product_name').value = selectedProduct.name;
     }
@@ -434,7 +377,6 @@
         alert('✅ Commande envoyée avec succès ! Merci !');
         this.reset();
         document.getElementById('orderForm').style.display = 'none';
-        document.getElementById('orderSummary').style.display = 'none';
         selectedProduct = null;
       })
       .catch(err => {
