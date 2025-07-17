@@ -1,4 +1,4 @@
-emailjs.init("-NCu9wIQO7U8UzrJR"); // Remplace par ton User ID EmailJS
+emailjs.init("UcOQrsNWkBJKpdq-1"); // Ton User ID EmailJS
 
 const products = [
   {
@@ -125,7 +125,7 @@ getLocalIP();
 
 function selectProduct(idx) {
   selectedProduct = products[idx];
-  document.getElementById('product_name').value = selectedProduct.name;
+  document.getElementById('product').value = selectedProduct.name;
 
   // Générer numéro commande
   document.getElementById('order_reference').value = generateOrderNumber();
@@ -150,10 +150,10 @@ document.getElementById('orderForm').addEventListener('submit', function(e){
   e.preventDefault();
 
   if(selectedProduct){
-    document.getElementById('product_name').value = selectedProduct.name;
+    document.getElementById('product').value = selectedProduct.name;
   }
 
-  emailjs.sendForm('service_ho12zts', 'template_99pjvzj', this)
+  emailjs.sendForm('service_ypcrj9b', 'template_z3l5jva', this)
     .then(() => {
       alert('✅ Commande envoyée avec succès ! Merci !');
       this.reset();
