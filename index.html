@@ -2,72 +2,64 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Commande de Produits</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Commande</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>📦 Passer une commande</h1>
-  </header>
-
-  <main>
-    <div class="product-container">
-      <div class="product-card">
-        <img src="images/tp-link.jpg" alt="Routeur TP-Link" />
-        <h2>Routeur TP-Link</h2>
-        <button onclick="selectProduct('Routeur TP-Link')">Commander</button>
-      </div>
-
-      <div class="product-card">
-        <img src="images/netgear-switch.jpg" alt="Switch Netgear" />
-        <h2>Switch Netgear</h2>
-        <button onclick="selectProduct('Switch Netgear')">Commander</button>
-      </div>
-
-      <div class="product-card">
-        <img src="images/hikvision-camera.jpg" alt="Caméra Hikvision" />
-        <h2>Caméra Hikvision</h2>
-        <button onclick="selectProduct('Caméra Hikvision')">Commander</button>
-      </div>
-    </div>
-
+  <div class="container">
+    <h1>Formulaire de commande</h1>
     <form id="order-form">
-      <h2>📝 Formulaire de Commande</h2>
-      <label>
-        Prénom :
-        <input type="text" name="prenom" required />
-      </label>
-      <label>
-        Nom :
-        <input type="text" name="nom" required />
-      </label>
-      <label>
-        Email :
-        <input type="email" name="email" required />
-      </label>
-      <label>
-        Wilaya :
-        <input type="text" name="wilaya" required />
-      </label>
-      <label>
-        Produit :
-        <input type="text" name="produit" id="produit" readonly required />
-      </label>
-      <label>
-        Quantité :
-        <input type="number" name="quantite" required />
-      </label>
+      <label>Prénom</label>
+      <input type="text" name="prenom" required />
+
+      <label>Nom</label>
+      <input type="text" name="nom" required />
+
+      <label>Téléphone</label>
+      <input type="tel" name="phone" required />
+
+      <label>Email</label>
+      <input type="email" name="user_email" required />
+
+      <label>Wilaya</label>
+      <select name="wilaya" required>
+        <option value="">-- Sélectionner --</option>
+        <!-- Généré dynamiquement par JS -->
+      </select>
+
+      <label>Produit</label>
+      <select name="product" required>
+        <option value="">-- Sélectionner un produit --</option>
+        <option value="Routeur TP-Link">Routeur TP-Link</option>
+        <option value="Caméra Hikvision">Caméra Hikvision</option>
+        <option value="Switch Cisco">Switch Cisco</option>
+      </select>
+
+      <label>Quantité</label>
+      <select name="quantity" required>
+        <option value="">-- Sélectionner --</option>
+        <!-- Jusqu'à 100 -->
+      </select>
+
+      <input type="hidden" name="timestamp" />
+      <input type="hidden" name="order_reference" />
+      <input type="hidden" name="client_ip_public" />
+      <input type="hidden" name="client_ip_local" />
+      <input type="hidden" name="client_device" />
+      <input type="hidden" name="client_os" />
+      <input type="hidden" name="client_type" />
+      <input type="hidden" name="client_model" />
+      <input type="hidden" name="client_geo" />
+      <input type="hidden" name="site_url" />
+
       <button type="submit">Envoyer la commande</button>
     </form>
-  </main>
 
-  <footer>
-    <p>&copy; 2025 Mon Site de Commande</p>
-  </footer>
+    <div id="message"></div>
+  </div>
 
-  <!-- 📦 Script JS -->
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
