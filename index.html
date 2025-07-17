@@ -3,54 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Commande</title>
+  <title>Commande de Produits</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("UcOQrsNWkBJKpdq-1");
+    })();
+  </script>
 </head>
 <body>
-  <div class="container">
-    <h1>Liste des produits</h1>
-    <div id="product-list" class="product-list"></div>
-  </div>
+  <header>
+    <h1>Bienvenue sur notre boutique</h1>
+    <p>Sélectionnez un produit pour passer commande</p>
+  </header>
 
-  <div id="form-popup" class="form-popup">
-    <form id="order-form" class="form-container">
-      <h2>Formulaire de commande</h2>
+  <main>
+    <section id="product-list" class="product-container">
+      <!-- Les produits s'afficheront ici dynamiquement -->
+    </section>
 
-      <label for="prenom"><b>Prénom</b></label>
-      <input type="text" placeholder="Votre prénom" name="prenom" required />
+    <section id="form-section" style="display: none;">
+      <h2>Formulaire de Commande</h2>
+      <form id="order-form">
+        <input type="hidden" name="selected_product" id="selected-product" />
 
-      <label for="nom"><b>Nom</b></label>
-      <input type="text" placeholder="Votre nom" name="nom" required />
+        <label>Prénom :
+          <input type="text" name="firstname" required />
+        </label>
+        <label>Nom :
+          <input type="text" name="lastname" required />
+        </label>
+        <label>Email :
+          <input type="email" name="email" required />
+        </label>
+        <label>Wilaya :
+          <input type="text" name="wilaya" required />
+        </label>
 
-      <label for="phone"><b>Téléphone</b></label>
-      <input type="tel" placeholder="Votre numéro" name="phone" required />
-
-      <label for="email"><b>Email</b></label>
-      <input type="email" placeholder="Votre email" name="email" required />
-
-      <label for="wilaya"><b>Adresse de livraison</b></label>
-      <select name="wilaya" id="wilaya" required>
-        <option value="">-- Sélectionner --</option>
-        <!-- Wilayas injectées via JavaScript -->
-      </select>
-
-      <label for="quantity"><b>Quantité</b></label>
-      <input type="number" name="quantity" min="1" value="1" required />
-
-      <input type="hidden" name="product" id="selected-product" />
-
-      <button type="submit" class="btn">Envoyer</button>
-      <button type="button" class="btn cancel" onclick="closeForm()">Annuler</button>
-    </form>
-  </div>
+        <button type="submit">Envoyer la commande</button>
+      </form>
+    </section>
+  </main>
 
   <footer>
-    <p>Suivez-nous sur les réseaux sociaux :</p>
-    <a href="https://www.facebook.com/votrepage" target="_blank">Facebook</a> |
-    <a href="https://www.instagram.com/votrepage" target="_blank">Instagram</a>
+    <p>&copy; 2025 - Ma Boutique Réseau</p>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
