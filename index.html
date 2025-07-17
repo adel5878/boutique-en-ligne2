@@ -2,20 +2,72 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Boutique Avancée</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commande de Produits</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header>
+    <h1>📦 Passer une commande</h1>
+  </header>
 
-<h2>Nos Produits</h2>
-<div class="products" id="productsContainer"></div>
+  <main>
+    <div class="product-container">
+      <div class="product-card">
+        <img src="images/tp-link.jpg" alt="Routeur TP-Link" />
+        <h2>Routeur TP-Link</h2>
+        <button onclick="selectProduct('Routeur TP-Link')">Commander</button>
+      </div>
 
-<form id="orderForm">
-  <!-- ...formulaire inchangé à replacer ici... -->
-</form>
+      <div class="product-card">
+        <img src="images/netgear-switch.jpg" alt="Switch Netgear" />
+        <h2>Switch Netgear</h2>
+        <button onclick="selectProduct('Switch Netgear')">Commander</button>
+      </div>
 
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script src="script.js"></script>
+      <div class="product-card">
+        <img src="images/hikvision-camera.jpg" alt="Caméra Hikvision" />
+        <h2>Caméra Hikvision</h2>
+        <button onclick="selectProduct('Caméra Hikvision')">Commander</button>
+      </div>
+    </div>
+
+    <form id="order-form">
+      <h2>📝 Formulaire de Commande</h2>
+      <label>
+        Prénom :
+        <input type="text" name="prenom" required />
+      </label>
+      <label>
+        Nom :
+        <input type="text" name="nom" required />
+      </label>
+      <label>
+        Email :
+        <input type="email" name="email" required />
+      </label>
+      <label>
+        Wilaya :
+        <input type="text" name="wilaya" required />
+      </label>
+      <label>
+        Produit :
+        <input type="text" name="produit" id="produit" readonly required />
+      </label>
+      <label>
+        Quantité :
+        <input type="number" name="quantite" required />
+      </label>
+      <button type="submit">Envoyer la commande</button>
+    </form>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Mon Site de Commande</p>
+  </footer>
+
+  <!-- 📦 Script JS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
