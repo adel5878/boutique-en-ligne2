@@ -1,127 +1,73 @@
-/* Style général */
 body {
   font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  padding: 20px;
   margin: 0;
-  background-color: #f2f2f2;
-  color: #333;
 }
 
-header, footer {
-  background-color: #333;
-  color: white;
-  text-align: center;
-  padding: 1rem;
-}
-
-h1, h2 {
-  margin-top: 0;
-}
-
-main {
-  padding: 1rem;
-}
-
-/* Produits */
-.product-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.product-card {
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  width: 250px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-}
-
-.product-card:hover {
-  transform: scale(1.02);
-}
-
-.product-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 10px 10px 0 0;
-}
-
-.product-card h2 {
-  font-size: 1.1rem;
-  margin: 0.5rem 0;
-}
-
-.product-card button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 0.6rem 1rem;
-  margin-bottom: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.product-card button:hover {
-  background-color: #0056b3;
-}
-
-/* Formulaire */
-form {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 10px;
+.container {
+  background-color: #fff;
   max-width: 500px;
   margin: auto;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-form label {
-  display: block;
-  margin-bottom: 1rem;
-}
-
-form input {
-  width: 100%;
-  padding: 0.6rem;
-  margin-top: 0.3rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-form button {
-  display: block;
-  width: 100%;
-  background-color: green;
-  color: white;
-  padding: 0.8rem;
-  font-size: 1rem;
-  border: none;
+  padding: 20px;
   border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #28a745;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input, select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 5px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  margin-top: 1rem;
+  font-size: 16px;
 }
 
-form button:hover {
-  background-color: darkgreen;
+button:hover {
+  background-color: #218838;
 }
 
-/* Responsive */
+#message {
+  margin-top: 15px;
+  font-weight: bold;
+  color: #28a745;
+  text-align: center;
+}
+
+/* Responsive mobile */
 @media (max-width: 600px) {
-  .product-container {
-    flex-direction: column;
-    align-items: center;
+  .container {
+    padding: 15px;
   }
 
-  .product-card {
-    width: 90%;
+  input, select {
+    font-size: 16px;
   }
 
-  form {
-    width: 90%;
+  button {
+    font-size: 16px;
   }
 }
