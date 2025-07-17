@@ -1,238 +1,439 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Boutique avec Formulaire Avancé</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
-    .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
-    .card {
-      background: #fff; padding: 15px; border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      display: flex; flex-direction: column; align-items: center;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Boutique Avancée</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  .card img {
+    width: 100%;
+    height: 160px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  .card h3 {
+    margin: 0 0 6px 0;
+    font-size: 1.3rem;
+  }
+  .details {
+    font-size: 0.9rem;
+    color: #555;
+    flex-grow: 1;
+  }
+  .details p {
+    margin: 4px 0;
+  }
+  .card button {
+    margin-top: 15px;
+    background: #007BFF;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .card button:hover {
+    background: #0056b3;
+  }
+
+  form {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    background: white;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: none;
+  }
+  form h3 {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  form input, form select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border-radius: 7px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  form label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+  }
+  form button[type="submit"] {
+    background: #28a745;
+    border: none;
+    color: white;
+    padding: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+  }
+  form button[type="submit"]:hover {
+    background: #1e7e34;
+  }
+  .summary {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    background: #e9f5ff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px #007BFF;
+    display: none;
+  }
+  .summary h4 {
+    margin-top: 0;
+    color: #007BFF;
+  }
+  .summary p {
+    margin: 6px 0;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 650px) {
+    .products {
+      grid-template-columns: 1fr;
     }
-    .card img { max-width: 100%; height: 150px; object-fit: contain; }
-    .card h3 { margin: 10px 0 5px; }
-    .card p { font-size: 14px; text-align: center; }
-    .card button {
-      margin-top: auto; background: #007BFF; color: white;
-      border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;
+    form, .summary {
+      max-width: 90%;
     }
-    form { display: none; margin-top: 30px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 500px; }
-    form input, form select { display: block; width: 100%; margin-bottom: 10px; padding: 8px; }
-    button[type="submit"] { background: green; color: white; border: none; padding: 12px 20px; cursor: pointer; border-radius: 5px; }
-    .success { color: green; margin-top: 10px; }
-  </style>
+  }
+</style>
 </head>
 <body>
 
-  <h2>Nos Produits</h2>
-  <div class="products">
-    <div class="card">
-      <img src="https://via.placeholder.com/200x150?text=Routeur+TP-Link" alt="Routeur TP-Link" />
-      <h3>Routeur TP-Link</h3>
-      <p>Routeur Wi-Fi haute vitesse, idéal pour maison et bureau.</p>
-      <button onclick="selectProduct('Routeur TP-Link')">Commander</button>
-    </div>
-    <div class="card">
-      <img src="https://via.placeholder.com/200x150?text=Switch+8+Ports" alt="Switch 8 Ports" />
-      <h3>Switch 8 Ports</h3>
-      <p>Switch Ethernet gigabit avec 8 ports RJ45.</p>
-      <button onclick="selectProduct('Switch 8 Ports')">Commander</button>
-    </div>
-    <div class="card">
-      <img src="https://via.placeholder.com/200x150?text=Caméra+IP" alt="Caméra IP" />
-      <h3>Caméra IP</h3>
-      <p>Caméra de surveillance haute résolution.</p>
-      <button onclick="selectProduct('Caméra IP')">Commander</button>
-    </div>
-  </div>
+<h2>Nos Produits</h2>
+<div class="products" id="productsContainer">
+  <!-- Cartes générées via JS -->
+</div>
 
-  <form id="orderForm">
-    <h3>Formulaire de Commande</h3>
+<div class="summary" id="orderSummary">
+  <h4>Résumé de votre commande</h4>
+  <p id="summaryProduct"></p>
+  <p id="summaryQuantity"></p>
+  <p id="summaryWilaya"></p>
+  <p id="summaryClient"></p>
+</div>
 
-    <input type="text" name="prenom" placeholder="Prénom" required />
-    <input type="text" name="nom" placeholder="Nom" required />
-    <input type="tel" name="phone" placeholder="+213xxxxxxxxx" pattern="^\+?\d{7,15}$" required />
-    <input type="email" name="user_email" placeholder="Email" required />
+<form id="orderForm">
+  <h3>Formulaire de Commande</h3>
 
-    <select name="wilaya" required>
-      <option value="">-- Sélectionnez une wilaya --</option>
-      <option value="1 - Adrar">1 - Adrar</option>
-      <option value="2 - Chlef">2 - Chlef</option>
-      <option value="3 - Laghouat">3 - Laghouat</option>
-      <option value="4 - Oum El Bouaghi">4 - Oum El Bouaghi</option>
-      <option value="5 - Batna">5 - Batna</option>
-      <option value="6 - Béjaïa">6 - Béjaïa</option>
-      <option value="7 - Biskra">7 - Biskra</option>
-      <option value="8 - Béchar">8 - Béchar</option>
-      <option value="9 - Blida">9 - Blida</option>
-      <option value="10 - Bouira">10 - Bouira</option>
-      <option value="11 - Tamanrasset">11 - Tamanrasset</option>
-      <option value="12 - Tébessa">12 - Tébessa</option>
-      <option value="13 - Tlemcen">13 - Tlemcen</option>
-      <option value="14 - Tiaret">14 - Tiaret</option>
-      <option value="15 - Tizi Ouzou">15 - Tizi Ouzou</option>
-      <option value="16 - Alger">16 - Alger</option>
-      <option value="17 - Djelfa">17 - Djelfa</option>
-      <option value="18 - Jijel">18 - Jijel</option>
-      <option value="19 - Sétif">19 - Sétif</option>
-      <option value="20 - Saïda">20 - Saïda</option>
-      <option value="21 - Skikda">21 - Skikda</option>
-      <option value="22 - Sidi Bel Abbès">22 - Sidi Bel Abbès</option>
-      <option value="23 - Annaba">23 - Annaba</option>
-      <option value="24 - Guelma">24 - Guelma</option>
-      <option value="25 - Constantine">25 - Constantine</option>
-      <option value="26 - Médéa">26 - Médéa</option>
-      <option value="27 - Mostaganem">27 - Mostaganem</option>
-      <option value="28 - M’Sila">28 - M’Sila</option>
-      <option value="29 - Mascara">29 - Mascara</option>
-      <option value="30 - Ouargla">30 - Ouargla</option>
-      <option value="31 - Oran">31 - Oran</option>
-      <option value="32 - El Bayadh">32 - El Bayadh</option>
-      <option value="33 - Illizi">33 - Illizi</option>
-      <option value="34 - Bordj Bou Arreridj">34 - Bordj Bou Arreridj</option>
-      <option value="35 - Boumerdès">35 - Boumerdès</option>
-      <option value="36 - El Tarf">36 - El Tarf</option>
-      <option value="37 - Tindouf">37 - Tindouf</option>
-      <option value="38 - Tissemsilt">38 - Tissemsilt</option>
-      <option value="39 - El Oued">39 - El Oued</option>
-      <option value="40 - Khenchela">40 - Khenchela</option>
-      <option value="41 - Souk Ahras">41 - Souk Ahras</option>
-      <option value="42 - Tipaza">42 - Tipaza</option>
-      <option value="43 - Mila">43 - Mila</option>
-      <option value="44 - Aïn Defla">44 - Aïn Defla</option>
-      <option value="45 - Naâma">45 - Naâma</option>
-      <option value="46 - Aïn Témouchent">46 - Aïn Témouchent</option>
-      <option value="47 - Ghardaïa">47 - Ghardaïa</option>
-      <option value="48 - Relizane">48 - Relizane</option>
-    </select>
+  <label for="prenom">Prénom</label>
+  <input type="text" name="prenom" id="prenom" placeholder="Prénom" required />
 
-    <input type="text" name="product" id="product" readonly />
+  <label for="nom">Nom</label>
+  <input type="text" name="nom" id="nom" placeholder="Nom" required />
 
-    <label for="quantity">Quantité :</label>
-    <select name="quantity" id="quantity" required></select>
+  <label for="phone">Téléphone</label>
+  <input type="tel" name="phone" id="phone" placeholder="+213xxxxxxxxx" pattern="^\+?\d{7,15}$" required />
 
-    <!-- Champs cachés pour EmailJS -->
-    <input type="hidden" name="order_reference" id="order_reference" />
-    <input type="hidden" name="client_ip_public" id="client_ip_public" />
-    <input type="hidden" name="client_ip_local" id="client_ip_local" />
-    <input type="hidden" name="client_device" id="client_device" />
-    <input type="hidden" name="client_os" id="client_os" />
-    <input type="hidden" name="client_type" id="client_type" />
-    <input type="hidden" name="client_model" id="client_model" />
-    <input type="hidden" name="client_geo" id="client_geo" />
-    <input type="hidden" name="timestamp" id="timestamp" />
-    <input type="hidden" name="site_url" id="site_url" />
+  <label for="user_email">Email</label>
+  <input type="email" name="user_email" id="user_email" placeholder="Email" required />
 
-    <button type="submit">Envoyer la commande</button>
-  </form>
+  <label for="wilaya">Adresse de livraison (Wilaya)</label>
+  <select name="wilaya" id="wilaya" required>
+    <option value="">-- Sélectionnez une wilaya --</option>
+    <option value="1 - Adrar">1 - Adrar</option>
+    <option value="2 - Chlef">2 - Chlef</option>
+    <option value="3 - Laghouat">3 - Laghouat</option>
+    <option value="4 - Oum El Bouaghi">4 - Oum El Bouaghi</option>
+    <option value="5 - Batna">5 - Batna</option>
+    <option value="6 - Béjaïa">6 - Béjaïa</option>
+    <option value="7 - Biskra">7 - Biskra</option>
+    <option value="8 - Béchar">8 - Béchar</option>
+    <option value="9 - Blida">9 - Blida</option>
+    <option value="10 - Bouira">10 - Bouira</option>
+    <option value="11 - Tamanrasset">11 - Tamanrasset</option>
+    <option value="12 - Tébessa">12 - Tébessa</option>
+    <option value="13 - Tlemcen">13 - Tlemcen</option>
+    <option value="14 - Tiaret">14 - Tiaret</option>
+    <option value="15 - Tizi Ouzou">15 - Tizi Ouzou</option>
+    <option value="16 - Alger">16 - Alger</option>
+    <option value="17 - Djelfa">17 - Djelfa</option>
+    <option value="18 - Jijel">18 - Jijel</option>
+    <option value="19 - Sétif">19 - Sétif</option>
+    <option value="20 - Saïda">20 - Saïda</option>
+    <option value="21 - Skikda">21 - Skikda</option>
+    <option value="22 - Sidi Bel Abbès">22 - Sidi Bel Abbès</option>
+    <option value="23 - Annaba">23 - Annaba</option>
+    <option value="24 - Guelma">24 - Guelma</option>
+    <option value="25 - Constantine">25 - Constantine</option>
+    <option value="26 - Médéa">26 - Médéa</option>
+    <option value="27 - Mostaganem">27 - Mostaganem</option>
+    <option value="28 - M’Sila">28 - M’Sila</option>
+    <option value="29 - Mascara">29 - Mascara</option>
+    <option value="30 - Ouargla">30 - Ouargla</option>
+    <option value="31 - Oran">31 - Oran</option>
+    <option value="32 - El Bayadh">32 - El Bayadh</option>
+    <option value="33 - Illizi">33 - Illizi</option>
+    <option value="34 - Bordj Bou Arreridj">34 - Bordj Bou Arreridj</option>
+    <option value="35 - Boumerdès">35 - Boumerdès</option>
+    <option value="36 - El Tarf">36 - El Tarf</option>
+    <option value="37 - Tindouf">37 - Tindouf</option>
+    <option value="38 - Tissemsilt">38 - Tissemsilt</option>
+    <option value="39 - El Oued">39 - El Oued</option>
+    <option value="40 - Khenchela">40 - Khenchela</option>
+    <option value="41 - Souk Ahras">41 - Souk Ahras</option>
+    <option value="42 - Tipaza">42 - Tipaza</option>
+    <option value="43 - Mila">43 - Mila</option>
+    <option value="44 - Aïn Defla">44 - Aïn Defla</option>
+    <option value="45 - Naâma">45 - Naâma</option>
+    <option value="46 - Aïn Témouchent">46 - Aïn Témouchent</option>
+    <option value="47 - Ghardaïa">47 - Ghardaïa</option>
+    <option value="48 - Relizane">48 - Relizane</option>
+  </select>
 
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script>
-    // Remplace par ton vrai ID EmailJS
-    emailjs.init("-NCu9wIQO7U8UzrJR");
+  <label for="quantity">Quantité</label>
+  <select name="quantity" id="quantity" required></select>
 
-    // Remplissage de la quantité (1 à 100)
-    const qty = document.getElementById('quantity');
-    for(let i=1; i<=100; i++){
-      const opt = document.createElement('option');
-      opt.value = i;
-      opt.textContent = i;
-      qty.appendChild(opt);
+  <!-- Champs cachés -->
+  <input type="hidden" name="product_name" id="product_name" />
+  <input type="hidden" name="order_reference" id="order_reference" />
+  <input type="hidden" name="client_ip_public" id="client_ip_public" />
+  <input type="hidden" name="client_ip_local" id="client_ip_local" />
+  <input type="hidden" name="client_device" id="client_device" />
+  <input type="hidden" name="client_os" id="client_os" />
+  <input type="hidden" name="client_type" id="client_type" />
+  <input type="hidden" name="client_model" id="client_model" />
+  <input type="hidden" name="client_geo" id="client_geo" />
+  <input type="hidden" name="timestamp" id="timestamp" />
+  <input type="hidden" name="site_url" id="site_url" />
+
+  <button type="submit">Confirmer la commande</button>
+</form>
+
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  emailjs.init("-NCu9wIQO7U8UzrJR"); // Ton user ID EmailJS ici
+
+  // Produits avec détails
+  const products = [
+    {
+      name: "Routeur TP-Link",
+      image: "https://via.placeholder.com/200x150?text=Routeur+TP-Link",
+      marque: "TP-Link",
+      reference: "TL-WR840N",
+      caracteristiques: "Wi-Fi N300 Mbps, 4 ports LAN gigabit, sécurité WPA2",
+      garantie: "2 ans",
+      delai: "2-3 jours",
+      disponibilite: "En stock"
+    },
+    {
+      name: "Switch 8 Ports",
+      image: "https://via.placeholder.com/200x150?text=Switch+8+Ports",
+      marque: "Netgear",
+      reference: "GS308",
+      caracteristiques: "8 ports gigabit RJ45, plug and play, boîtier métal",
+      garantie: "3 ans",
+      delai: "1-2 jours",
+      disponibilite: "Stock limité"
+    },
+    {
+      name: "Caméra IP",
+      image: "https://via.placeholder.com/200x150?text=Cam%C3%A9ra+IP",
+      marque: "Hikvision",
+      reference: "DS-2CD2042WD-I",
+      caracteristiques: "4MP HD, vision nocturne, détection mouvement",
+      garantie: "1 an",
+      delai: "3-5 jours",
+      disponibilite: "En stock"
     }
+  ];
 
-    // Remplissage automatique des champs cachés
-    const ua = navigator.userAgent;
-    document.getElementById('client_device').value = ua;
+  const productsContainer = document.getElementById('productsContainer');
 
-    let os = "Inconnu";
-    if(ua.includes("Win")) os = "Windows";
-    else if(ua.includes("Mac")) os = "MacOS";
-    else if(ua.includes("Linux")) os = "Linux";
-    else if(ua.includes("Android")) os = "Android";
-    else if(ua.includes("like Mac")) os = "iOS";
-    document.getElementById('client_os').value = os;
+  // Génération cartes produit
+  products.forEach((p, idx) => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.innerHTML = `
+      <img src="${p.image}" alt="${p.name}" />
+      <h3>${p.name}</h3>
+      <div class="details">
+        <p><strong>Marque:</strong> ${p.marque}</p>
+        <p><strong>Référence:</strong> ${p.reference}</p>
+        <p><strong>Caractéristiques:</strong> ${p.caracteristiques}</p>
+        <p><strong>Garantie:</strong> ${p.garantie}</p>
+        <p><strong>Délai livraison:</strong> ${p.delai}</p>
+        <p><strong>Disponibilité:</strong> ${p.disponibilite}</p>
+      </div>
+      <button onclick="selectProduct(${idx})">Commander</button>
+    `;
+    productsContainer.appendChild(card);
+  });
 
-    const deviceType = /Mobi|Android|iPhone|iPad|iPod/i.test(ua) ? "Mobile/Tablet" : "PC";
-    document.getElementById('client_type').value = deviceType;
+  // Remplissage quantité
+  const qtySelect = document.getElementById('quantity');
+  for(let i=1; i<=100; i++) {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = i;
+    qtySelect.appendChild(opt);
+  }
 
-    let model = "Inconnu";
-    if(deviceType !== "PC"){
-      const match = ua.match(/\(([^)]+)\)/);
-      if(match) model = match[1];
-    }
-    document.getElementById('client_model').value = model;
+  // Champs cachés info client
+  const ua = navigator.userAgent;
+  document.getElementById('client_device').value = ua;
 
-    document.getElementById('timestamp').value = new Date().toLocaleString();
-    document.getElementById('site_url').value = window.location.href;
+  let os = "Inconnu";
+  if(ua.includes("Win")) os = "Windows";
+  else if(ua.includes("Mac")) os = "MacOS";
+  else if(ua.includes("Linux")) os = "Linux";
+  else if(ua.includes("Android")) os = "Android";
+  else if(ua.includes("like Mac")) os = "iOS";
+  document.getElementById('client_os').value = os;
 
-    fetch('https://api.ipify.org?format=json')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('client_ip_public').value = data.ip;
-        return fetch(`https://ipinfo.io/${data.ip}/json?token=30b8520dc83c25`);
-      })
-      .then(res => res.json())
-      .then(info => {
-        const geo = `${info.city || ''}, ${info.region || ''}, ${info.country || ''}`;
-        document.getElementById('client_geo').value = geo;
-      })
-      .catch(() => {
-        document.getElementById('client_geo').value = "Non disponible";
-      });
+  const deviceType = /Mobi|Android|iPhone|iPad|iPod/i.test(ua) ? "Mobile/Tablet" : "PC";
+  document.getElementById('client_type').value = deviceType;
 
-    function getLocalIP() {
-      return new Promise((resolve) => {
-        const pc = new RTCPeerConnection({iceServers: []});
-        pc.createDataChannel('');
-        pc.createOffer().then(offer => pc.setLocalDescription(offer));
-        pc.onicecandidate = event => {
-          if (!event || !event.candidate) return;
-          const ipMatch = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(event.candidate.candidate);
-          if(ipMatch){
-            document.getElementById('client_ip_local').value = ipMatch[1];
-            resolve(ipMatch[1]);
-            pc.onicecandidate = null;
-          }
-        };
-      });
-    }
-    getLocalIP();
+  let model = "Inconnu";
+  if(deviceType !== "PC"){
+    const match = ua.match(/\(([^)]+)\)/);
+    if(match) model = match[1];
+  }
+  document.getElementById('client_model').value = model;
 
-    // Fonction affichage formulaire et mise à jour produit sélectionné
-    function selectProduct(productName) {
-      document.getElementById('product').value = productName;
-      document.getElementById('order_reference').value = generateOrderNumber();
-      document.getElementById('orderForm').style.display = 'block';
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
+  document.getElementById('timestamp').value = new Date().toLocaleString();
+  document.getElementById('site_url').value = window.location.href;
 
-    // Génération d’un numéro de commande unique
-    function generateOrderNumber() {
-      const now = new Date();
-      return 'CMD-' +
-        now.getFullYear().toString().slice(2) +
-        String(now.getMonth() + 1).padStart(2, '0') +
-        String(now.getDate()).padStart(2, '0') + '-' +
-        Math.floor(1000 + Math.random() * 9000);
-    }
-
-    // Envoi EmailJS à la soumission du formulaire
-    document.getElementById('orderForm').addEventListener('submit', function(e){
-      e.preventDefault();
-      emailjs.sendForm('service_ho12zts', 'template_99pjvzj', this)
-        .then(() => {
-          alert('✅ Commande envoyée avec succès !');
-          this.reset();
-          this.style.display = 'none';
-        })
-        .catch(err => {
-          alert('❌ Erreur lors de l’envoi : ' + JSON.stringify(err));
-        });
+  fetch('https://api.ipify.org?format=json')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('client_ip_public').value = data.ip;
+      return fetch(`https://ipinfo.io/${data.ip}/json?token=30b8520dc83c25`);
+    })
+    .then(res => res.json())
+    .then(info => {
+      const geo = `${info.city || ''}, ${info.region || ''}, ${info.country || ''}`;
+      document.getElementById('client_geo').value = geo;
+    })
+    .catch(() => {
+      document.getElementById('client_geo').value = "Non disponible";
     });
-  </script>
+
+  function getLocalIP() {
+    return new Promise((resolve) => {
+      const pc = new RTCPeerConnection({iceServers: []});
+      pc.createDataChannel('');
+      pc.createOffer().then(offer => pc.setLocalDescription(offer));
+      pc.onicecandidate = event => {
+        if (!event || !event.candidate) return;
+        const ipMatch = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(event.candidate.candidate);
+        if(ipMatch){
+          document.getElementById('client_ip_local').value = ipMatch[1];
+          resolve(ipMatch[1]);
+          pc.onicecandidate = null;
+        }
+      };
+    });
+  }
+  getLocalIP();
+
+  // Variables pour produit sélectionné
+  let selectedProduct = null;
+
+  // Affiche formulaire et résumé au clic sur commander
+  function selectProduct(idx) {
+    selectedProduct = products[idx];
+    document.getElementById('product_name').value = selectedProduct.name;
+
+    // Générer un numéro de commande unique
+    document.getElementById('order_reference').value = generateOrderNumber();
+
+    // Afficher résumé
+    updateSummary();
+
+    // Afficher résumé + formulaire
+    document.getElementById('orderSummary').style.display = 'block';
+    document.getElementById('orderForm').style.display = 'block';
+
+    // Scroll vers le formulaire
+    window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+  }
+
+  // Met à jour le résumé en fonction des données du formulaire
+  function updateSummary(){
+    const qty = document.getElementById('quantity').value || 1;
+    const wilayaSelect = document.getElementById('wilaya');
+    const wilaya = wilayaSelect.options[wilayaSelect.selectedIndex]?.text || '';
+
+    document.getElementById('summaryProduct').textContent = `Produit : ${selectedProduct.name} (${selectedProduct.marque} - ${selectedProduct.reference})`;
+    document.getElementById('summaryQuantity').textContent = `Quantité : ${qty}`;
+    document.getElementById('summaryWilaya').textContent = `Adresse de livraison : ${wilaya}`;
+    const prenom = document.getElementById('prenom').value || "[Non renseigné]";
+    const nom = document.getElementById('nom').value || "[Non renseigné]";
+    const email = document.getElementById('user_email').value || "[Non renseigné]";
+    document.getElementById('summaryClient').textContent = `Client : ${prenom} ${nom} - Email : ${email}`;
+  }
+
+  // Écoute les changements sur certains champs pour mise à jour résumé dynamique
+  ['quantity','wilaya','prenom','nom','user_email'].forEach(id=>{
+    document.getElementById(id).addEventListener('input', updateSummary);
+  });
+
+  // Génération numéro commande
+  function generateOrderNumber() {
+    const now = new Date();
+    return 'CMD-' +
+      now.getFullYear().toString().slice(2) +
+      String(now.getMonth() + 1).padStart(2, '0') +
+      String(now.getDate()).padStart(2, '0') + '-' +
+      Math.floor(1000 + Math.random() * 9000);
+  }
+
+  // Soumission formulaire avec EmailJS
+  document.getElementById('orderForm').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    emailjs.sendForm('service_ho12zts', 'template_99pjvzj', this)
+      .then(() => {
+        alert('✅ Commande envoyée avec succès ! Merci !');
+        this.reset();
+        document.getElementById('orderForm').style.display = 'none';
+        document.getElementById('orderSummary').style.display = 'none';
+      })
+      .catch(err => {
+        alert('❌ Erreur lors de l’envoi : ' + JSON.stringify(err));
+      });
+  });
+</script>
 
 </body>
 </html>
