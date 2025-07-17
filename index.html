@@ -1,114 +1,100 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Boutique Avancée</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Commande</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
- 
-<h2>Nos Produits</h2>
-<div class="products" id="productsContainer"></div>
+  <button id="orderBtn">Commander</button>
 
-<form id="orderForm" style="display:none;">
-  <h3>Formulaire de Commande</h3>
+  <form id="orderForm" class="hidden">
+    <label for="prenom">Prénom:</label>
+    <input type="text" id="prenom" name="prenom" required />
 
-  <label for="prenom">Prénom</label>
-  <input type="text" name="prenom" id="prenom" placeholder="Prénom" required />
+    <label for="nom">Nom:</label>
+    <input type="text" id="nom" name="nom" required />
 
-  <label for="nom">Nom</label>
-  <input type="text" name="nom" id="nom" placeholder="Nom" required />
+    <label for="phone">Téléphone:</label>
+    <input type="tel" id="phone" name="phone" required />
 
-  <label for="phone">Téléphone</label>
-  <input type="tel" name="phone" id="phone" placeholder="+213xxxxxxxxx" pattern="^\+?\d{7,15}$" required />
+    <label for="user_email">Email:</label>
+    <input type="email" id="user_email" name="user_email" required />
 
-  <label for="user_email">Email</label>
-  <input type="email" name="user_email" id="user_email" placeholder="Email" required />
+    <label for="wilaya">Adresse de livraison:</label>
+    <select id="wilaya" name="wilaya" required>
+      <option value="">-- Sélectionner --</option>
+      <option>1 - Adrar</option>
+      <option>2 - Chlef</option>
+      <option>3 - Laghouat</option>
+      <option>4 - Oum El Bouaghi</option>
+      <option>5 - Batna</option>
+      <option>6 - Béjaïa</option>
+      <option>7 - Biskra</option>
+      <option>8 - Béchar</option>
+      <option>9 - Blida</option>
+      <option>10 - Bouira</option>
+      <option>11 - Tamanrasset</option>
+      <option>12 - Tébessa</option>
+      <option>13 - Tlemcen</option>
+      <option>14 - Tiaret</option>
+      <option>15 - Tizi Ouzou</option>
+      <option>16 - Alger</option>
+      <option>17 - Djelfa</option>
+      <option>18 - Jijel</option>
+      <option>19 - Sétif</option>
+      <option>20 - Saïda</option>
+      <option>21 - Skikda</option>
+      <option>22 - Sidi Bel Abbès</option>
+      <option>23 - Annaba</option>
+      <option>24 - Guelma</option>
+      <option>25 - Constantine</option>
+      <option>26 - Médéa</option>
+      <option>27 - Mostaganem</option>
+      <option>28 - M’Sila</option>
+      <option>29 - Mascara</option>
+      <option>30 - Ouargla</option>
+      <option>31 - Oran</option>
+      <option>32 - El Bayadh</option>
+      <option>33 - Illizi</option>
+      <option>34 - Bordj Bou Arréridj</option>
+      <option>35 - Boumerdès</option>
+      <option>36 - El Tarf</option>
+      <option>37 - Tindouf</option>
+      <option>38 - Tissemsilt</option>
+      <option>39 - El Oued</option>
+      <option>40 - Khenchela</option>
+      <option>41 - Souk Ahras</option>
+      <option>42 - Tipaza</option>
+      <option>43 - Mila</option>
+      <option>44 - Aïn Defla</option>
+      <option>45 - Naâma</option>
+      <option>46 - Aïn Témouchent</option>
+      <option>47 - Ghardaïa</option>
+      <option>48 - Relizane</option>
+      <option>49 - Timimoun</option>
+      <option>50 - Bordj Badji Mokhtar</option>
+      <option>51 - Ouled Djellal</option>
+      <option>52 - Béni Abbès</option>
+      <option>53 - In Salah</option>
+      <option>54 - In Guezzam</option>
+      <option>55 - Touggourt</option>
+      <option>56 - Djanet</option>
+      <option>57 - El M'Ghair</option>
+      <option>58 - El Meniaa</option>
+    </select>
 
-  <label for="wilaya">Adresse de livraison (Wilaya)</label>
-  <select name="wilaya" id="wilaya" required>
-    <option value="">-- Sélectionner une wilaya --</option>
-    <option value="1 - Adrar">1 - Adrar</option>
-    <option value="2 - Chlef">2 - Chlef</option>
-    <option value="3 - Laghouat">3 - Laghouat</option>
-    <option value="4 - Oum El Bouaghi">4 - Oum El Bouaghi</option>
-    <option value="5 - Batna">5 - Batna</option>
-    <option value="6 - Béjaïa">6 - Béjaïa</option>
-    <option value="7 - Biskra">7 - Biskra</option>
-    <option value="8 - Béchar">8 - Béchar</option>
-    <option value="9 - Blida">9 - Blida</option>
-    <option value="10 - Bouira">10 - Bouira</option>
-    <option value="11 - Tamanrasset">11 - Tamanrasset</option>
-    <option value="12 - Tébessa">12 - Tébessa</option>
-    <option value="13 - Tlemcen">13 - Tlemcen</option>
-    <option value="14 - Tiaret">14 - Tiaret</option>
-    <option value="15 - Tizi Ouzou">15 - Tizi Ouzou</option>
-    <option value="16 - Alger">16 - Alger</option>
-    <option value="17 - Djelfa">17 - Djelfa</option>
-    <option value="18 - Jijel">18 - Jijel</option>
-    <option value="19 - Sétif">19 - Sétif</option>
-    <option value="20 - Saïda">20 - Saïda</option>
-    <option value="21 - Skikda">21 - Skikda</option>
-    <option value="22 - Sidi Bel Abbès">22 - Sidi Bel Abbès</option>
-    <option value="23 - Annaba">23 - Annaba</option>
-    <option value="24 - Guelma">24 - Guelma</option>
-    <option value="25 - Constantine">25 - Constantine</option>
-    <option value="26 - Médéa">26 - Médéa</option>
-    <option value="27 - Mostaganem">27 - Mostaganem</option>
-    <option value="28 - M'Sila">28 - M'Sila</option>
-    <option value="29 - Mascara">29 - Mascara</option>
-    <option value="30 - Ouargla">30 - Ouargla</option>
-    <option value="31 - Oran">31 - Oran</option>
-    <option value="32 - El Bayadh">32 - El Bayadh</option>
-    <option value="33 - Illizi">33 - Illizi</option>
-    <option value="34 - Bordj Bou Arreridj">34 - Bordj Bou Arreridj</option>
-    <option value="35 - Boumerdès">35 - Boumerdès</option>
-    <option value="36 - El Tarf">36 - El Tarf</option>
-    <option value="37 - Tindouf">37 - Tindouf</option>
-    <option value="38 - Tissemsilt">38 - Tissemsilt</option>
-    <option value="39 - El Oued">39 - El Oued</option>
-    <option value="40 - Khenchela">40 - Khenchela</option>
-    <option value="41 - Souk Ahras">41 - Souk Ahras</option>
-    <option value="42 - Tipaza">42 - Tipaza</option>
-    <option value="43 - Mila">43 - Mila</option>
-    <option value="44 - Aïn Defla">44 - Aïn Defla</option>
-    <option value="45 - Naâma">45 - Naâma</option>
-    <option value="46 - Aïn Témouchent">46 - Aïn Témouchent</option>
-    <option value="47 - Ghardaïa">47 - Ghardaïa</option>
-    <option value="48 - Relizane">48 - Relizane</option>
-    <option value="49 - El M'Ghair">49 - El M'Ghair</option>
-    <option value="50 - El Menia">50 - El Menia</option>
-    <option value="51 - Ouled Djellal">51 - Ouled Djellal</option>
-    <option value="52 - Bordj Baji Mokhtar">52 - Bordj Baji Mokhtar</option>
-    <option value="53 - Béni Abbès">53 - Béni Abbès</option>
-    <option value="54 - Timimoun">54 - Timimoun</option>
-    <option value="55 - Touggourt">55 - Touggourt</option>
-    <option value="56 - Djanet">56 - Djanet</option>
-    <option value="57 - In Salah">57 - In Salah</option>
-    <option value="58 - In Guezzam">58 - In Guezzam</option>
-  </select>
+    <label for="product">Produit:</label>
+    <input type="text" id="product" name="product" required />
 
-  <label for="quantity">Quantité</label>
-  <select name="quantity" id="quantity" required></select>
+    <label for="quantity">Quantité:</label>
+    <input type="number" id="quantity" name="quantity" min="1" required />
 
-  <!-- Champs cachés -->
-  <input type="hidden" name="product" id="product" />
-  <input type="hidden" name="order_reference" id="order_reference" />
-  <input type="hidden" name="client_ip_public" id="client_ip_public" />
-  <input type="hidden" name="client_ip_local" id="client_ip_local" />
-  <input type="hidden" name="client_device" id="client_device" />
-  <input type="hidden" name="client_os" id="client_os" />
-  <input type="hidden" name="client_type" id="client_type" />
-  <input type="hidden" name="client_model" id="client_model" />
-  <input type="hidden" name="client_geo" id="client_geo" />
-  <input type="hidden" name="timestamp" id="timestamp" />
-  <input type="hidden" name="site_url" id="site_url" />
+    <button type="submit">Envoyer</button>
+  </form>
 
-  <button type="submit">Confirmer la commande</button>
-</form>
-
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script src="script.js"></script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
