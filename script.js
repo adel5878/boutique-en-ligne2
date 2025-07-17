@@ -1,42 +1,80 @@
-(function () {
-  emailjs.init("UcOQrsNWkBJKpdq-1");
-})();
+body {
+  font-family: Arial, sans-serif;
+  background: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
 
-document.getElementById("orderBtn").addEventListener("click", function () {
-  document.getElementById("orderForm").classList.remove("hidden");
-});
+.container {
+  max-width: 400px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
-document.getElementById("orderForm").addEventListener("submit", function (e) {
-  e.preventDefault();
+h1 {
+  text-align: center;
+  font-size: 24px;
+}
 
-  const templateParams = {
-    prenom: document.getElementById("prenom").value,
-    nom: document.getElementById("nom").value,
-    phone: document.getElementById("phone").value,
-    user_email: document.getElementById("user_email").value,
-    wilaya: document.getElementById("wilaya").value,
-    product: document.getElementById("product").value,
-    quantity: document.getElementById("quantity").value,
-    timestamp: new Date().toLocaleString(),
-    order_reference: Math.floor(Math.random() * 100000),
-    site_url: window.location.href,
-    client_ip_public: "Non disponible",
-    client_ip_local: "Non disponible",
-    client_device: navigator.userAgent,
-    client_os: navigator.platform,
-    client_type: "Navigateur Web",
-    client_model: "Inconnu",
-    client_geo: "Inconnu",
-  };
+form {
+  display: none;
+  flex-direction: column;
+}
 
-  emailjs.send("service_ypcrj9b", "template_z3l5jva", templateParams).then(
-    function (response) {
-      alert("Commande envoyée avec succès !");
-      document.getElementById("orderForm").reset();
-    },
-    function (error) {
-      alert("Erreur lors de l'envoi. Veuillez réessayer.");
-      console.error("Erreur EmailJS:", error);
-    }
-  );
-});
+label {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+input,
+select {
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+}
+
+button {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #28a745;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+.social-links {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #007bff;
+}
+
+.social-links img {
+  width: 24px;
+  height: 24px;
+}
