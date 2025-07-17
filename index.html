@@ -239,15 +239,22 @@
   <button type="submit">Confirmer la commande</button>
 </form>
 
+<div class="summary" id="orderSummary" style="display:none;">
+  <h4>Résumé de votre commande</h4>
+  <p id="summaryProduct"></p>
+  <p id="summaryQuantity"></p>
+  <p id="summaryWilaya"></p>
+  <p id="summaryClient"></p>
+</div>
+
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
-  emailjs.init("-NCu9wIQO7U8UzrJR"); // Ton user ID EmailJS ici
+  emailjs.init("-NCu9wIQO7U8UzrJR"); // Remplace par ton User ID EmailJS
 
-  // Produits avec détails
   const products = [
     {
       name: "Routeur TP-Link",
-      image: "https://via.placeholder.com/200x150?text=Routeur+TP-Link",
+      image: "https://static.tp-link.com/image/upload/2018/201808/20180813/TL-WR840N_1.jpg",
       marque: "TP-Link",
       reference: "TL-WR840N",
       caracteristiques: "Wi-Fi N300 Mbps, 4 ports LAN gigabit, sécurité WPA2",
@@ -257,7 +264,7 @@
     },
     {
       name: "Switch 8 Ports",
-      image: "https://via.placeholder.com/200x150?text=Switch+8+Ports",
+      image: "https://www.netgear.com/images/product/GS308-3000NAS_1000x1000.png",
       marque: "Netgear",
       reference: "GS308",
       caracteristiques: "8 ports gigabit RJ45, plug and play, boîtier métal",
@@ -267,7 +274,7 @@
     },
     {
       name: "Caméra IP",
-      image: "https://via.placeholder.com/200x150?text=Cam%C3%A9ra+IP",
+      image: "https://www.hikvision.com/content/dam/hikvision/en/products/ip-products/network-cameras/ds-2cd2042wd-i.jpg",
       marque: "Hikvision",
       reference: "DS-2CD2042WD-I",
       caracteristiques: "4MP HD, vision nocturne, détection mouvement",
@@ -278,8 +285,9 @@
   ];
 
   const productsContainer = document.getElementById('productsContainer');
+  const qtySelect = document.getElementById('quantity');
 
-  // Génération cartes produit
+  // Générer les cartes produits
   products.forEach((p, idx) => {
     const card = document.createElement('div');
     card.classList.add('card');
@@ -294,13 +302,12 @@
         <p><strong>Délai livraison:</strong> ${p.delai}</p>
         <p><strong>Disponibilité:</strong> ${p.disponibilite}</p>
       </div>
-      <button onclick="selectProduct(${idx})">Commander</button>
+      <button type="button" onclick="selectProduct(${idx})">Commander</button>
     `;
     productsContainer.appendChild(card);
   });
 
-  // Remplissage quantité
-  const qtySelect = document.getElementById('quantity');
+  // Remplir quantités (1-100)
   for(let i=1; i<=100; i++) {
     const opt = document.createElement('option');
     opt.value = i;
@@ -308,7 +315,7 @@
     qtySelect.appendChild(opt);
   }
 
-  // Champs cachés info client
+  // Variables client (user agent, IP, etc.)
   const ua = navigator.userAgent;
   document.getElementById('client_device').value = ua;
 
@@ -366,49 +373,45 @@
   }
   getLocalIP();
 
-  // Variables pour produit sélectionné
   let selectedProduct = null;
 
-  // Affiche formulaire et résumé au clic sur commander
   function selectProduct(idx) {
     selectedProduct = products[idx];
     document.getElementById('product_name').value = selectedProduct.name;
 
-    // Générer un numéro de commande unique
+    // Générer numéro commande
     document.getElementById('order_reference').value = generateOrderNumber();
 
-    // Afficher résumé
+    // Afficher formulaire et résumé
+    document.getElementById('orderForm').style.display = 'block';
+    document.getElementById('orderSummary').style.display = 'block';
+
     updateSummary();
 
-    // Afficher résumé + formulaire
-    document.getElementById('orderSummary').style.display = 'block';
-    document.getElementById('orderForm').style.display = 'block';
-
-    // Scroll vers le formulaire
+    // Scroll vers formulaire
     window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
   }
 
-  // Met à jour le résumé en fonction des données du formulaire
-  function updateSummary(){
+  function updateSummary() {
     const qty = document.getElementById('quantity').value || 1;
     const wilayaSelect = document.getElementById('wilaya');
     const wilaya = wilayaSelect.options[wilayaSelect.selectedIndex]?.text || '';
 
-    document.getElementById('summaryProduct').textContent = `Produit : ${selectedProduct.name} (${selectedProduct.marque} - ${selectedProduct.reference})`;
+    document.getElementById('summaryProduct').textContent = `Produit : ${selectedProduct ? selectedProduct.name : "[Non sélectionné]"}`;
     document.getElementById('summaryQuantity').textContent = `Quantité : ${qty}`;
     document.getElementById('summaryWilaya').textContent = `Adresse de livraison : ${wilaya}`;
+
     const prenom = document.getElementById('prenom').value || "[Non renseigné]";
     const nom = document.getElementById('nom').value || "[Non renseigné]";
     const email = document.getElementById('user_email').value || "[Non renseigné]";
     document.getElementById('summaryClient').textContent = `Client : ${prenom} ${nom} - Email : ${email}`;
   }
 
-  // Écoute les changements sur certains champs pour mise à jour résumé dynamique
+  // Mise à jour dynamique du résumé au changement de champs
   ['quantity','wilaya','prenom','nom','user_email'].forEach(id=>{
     document.getElementById(id).addEventListener('input', updateSummary);
   });
 
-  // Génération numéro commande
   function generateOrderNumber() {
     const now = new Date();
     return 'CMD-' +
@@ -418,9 +421,13 @@
       Math.floor(1000 + Math.random() * 9000);
   }
 
-  // Soumission formulaire avec EmailJS
   document.getElementById('orderForm').addEventListener('submit', function(e){
     e.preventDefault();
+
+    // Juste avant l’envoi on remet à jour le produit sélectionné dans l’input caché
+    if(selectedProduct){
+      document.getElementById('product_name').value = selectedProduct.name;
+    }
 
     emailjs.sendForm('service_ho12zts', 'template_99pjvzj', this)
       .then(() => {
@@ -428,6 +435,7 @@
         this.reset();
         document.getElementById('orderForm').style.display = 'none';
         document.getElementById('orderSummary').style.display = 'none';
+        selectedProduct = null;
       })
       .catch(err => {
         alert('❌ Erreur lors de l’envoi : ' + JSON.stringify(err));
