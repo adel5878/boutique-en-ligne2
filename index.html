@@ -2,97 +2,49 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Commande</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulaire de commande</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button id="orderBtn">Commander</button>
+  <div class="container">
+    <h1>📦 Nouvelle commande</h1>
+    <button onclick="showForm()">Commander</button>
 
-  <form id="orderForm" class="hidden">
-    <label for="prenom">Prénom:</label>
-    <input type="text" id="prenom" name="prenom" required />
+    <form id="orderForm">
+      <label for="prenom">Prénom:</label>
+      <input type="text" id="prenom" required />
 
-    <label for="nom">Nom:</label>
-    <input type="text" id="nom" name="nom" required />
+      <label for="nom">Nom:</label>
+      <input type="text" id="nom" required />
 
-    <label for="phone">Téléphone:</label>
-    <input type="tel" id="phone" name="phone" required />
+      <label for="email">Email:</label>
+      <input type="email" id="email" required />
 
-    <label for="user_email">Email:</label>
-    <input type="email" id="user_email" name="user_email" required />
+      <label for="wilaya">Adresse de livraison:</label>
+      <select id="wilaya" required></select>
 
-    <label for="wilaya">Adresse de livraison:</label>
-    <select id="wilaya" name="wilaya" required>
-      <option value="">-- Sélectionner --</option>
-      <option>1 - Adrar</option>
-      <option>2 - Chlef</option>
-      <option>3 - Laghouat</option>
-      <option>4 - Oum El Bouaghi</option>
-      <option>5 - Batna</option>
-      <option>6 - Béjaïa</option>
-      <option>7 - Biskra</option>
-      <option>8 - Béchar</option>
-      <option>9 - Blida</option>
-      <option>10 - Bouira</option>
-      <option>11 - Tamanrasset</option>
-      <option>12 - Tébessa</option>
-      <option>13 - Tlemcen</option>
-      <option>14 - Tiaret</option>
-      <option>15 - Tizi Ouzou</option>
-      <option>16 - Alger</option>
-      <option>17 - Djelfa</option>
-      <option>18 - Jijel</option>
-      <option>19 - Sétif</option>
-      <option>20 - Saïda</option>
-      <option>21 - Skikda</option>
-      <option>22 - Sidi Bel Abbès</option>
-      <option>23 - Annaba</option>
-      <option>24 - Guelma</option>
-      <option>25 - Constantine</option>
-      <option>26 - Médéa</option>
-      <option>27 - Mostaganem</option>
-      <option>28 - M’Sila</option>
-      <option>29 - Mascara</option>
-      <option>30 - Ouargla</option>
-      <option>31 - Oran</option>
-      <option>32 - El Bayadh</option>
-      <option>33 - Illizi</option>
-      <option>34 - Bordj Bou Arréridj</option>
-      <option>35 - Boumerdès</option>
-      <option>36 - El Tarf</option>
-      <option>37 - Tindouf</option>
-      <option>38 - Tissemsilt</option>
-      <option>39 - El Oued</option>
-      <option>40 - Khenchela</option>
-      <option>41 - Souk Ahras</option>
-      <option>42 - Tipaza</option>
-      <option>43 - Mila</option>
-      <option>44 - Aïn Defla</option>
-      <option>45 - Naâma</option>
-      <option>46 - Aïn Témouchent</option>
-      <option>47 - Ghardaïa</option>
-      <option>48 - Relizane</option>
-      <option>49 - Timimoun</option>
-      <option>50 - Bordj Badji Mokhtar</option>
-      <option>51 - Ouled Djellal</option>
-      <option>52 - Béni Abbès</option>
-      <option>53 - In Salah</option>
-      <option>54 - In Guezzam</option>
-      <option>55 - Touggourt</option>
-      <option>56 - Djanet</option>
-      <option>57 - El M'Ghair</option>
-      <option>58 - El Meniaa</option>
-    </select>
+      <label for="produit">Produit:</label>
+      <input type="text" id="produit" required />
 
-    <label for="product">Produit:</label>
-    <input type="text" id="product" name="product" required />
+      <label for="quantite">Quantité:</label>
+      <input type="number" id="quantite" min="1" value="1" required />
 
-    <label for="quantity">Quantité:</label>
-    <input type="number" id="quantity" name="quantity" min="1" required />
+      <button type="submit">Envoyer la commande</button>
+    </form>
+  </div>
 
-    <button type="submit">Envoyer</button>
-  </form>
+  <div class="social-links">
+    <p>Suivez-nous sur les réseaux sociaux :</p>
+    <a href="https://www.facebook.com/votrepage" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/24/733/733547.png" alt="Facebook" />
+      Facebook
+    </a>
+    <a href="https://www.instagram.com/votrepage" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/24/2111/2111463.png" alt="Instagram" />
+      Instagram
+    </a>
+  </div>
 
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script src="script.js"></script>
