@@ -1,104 +1,42 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Boutique Avancée</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ma Boutique</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="container">
+    <h1>Produits</h1>
+    <div class="product">
+      <h2 class="product-name">Routeur TP-Link</h2>
+      <img src="images/routeur.jpg" alt="Routeur TP-Link" />
+      <button class="order-btn" data-product="Routeur TP-Link">Commander</button>
+    </div>
+  </div>
 
-<h2>Nos Produits</h2>
-<div class="products" id="productsContainer"></div>
+  <div class="form-popup" id="orderForm">
+    <form id="commande-form">
+      <h2>Formulaire de Commande</h2>
+      <input type="hidden" name="produit" id="produit-input" />
+      <label>Prénom</label>
+      <input type="text" name="prenom" required />
+      <label>Nom</label>
+      <input type="text" name="nom" required />
+      <label>Email</label>
+      <input type="email" name="email" required />
+      <label>Wilaya</label>
+      <select name="wilaya" required>
+        <option value="">-- Choisir --</option>
+        <option value="13 - Tlemcen">13 - Tlemcen</option>
+        <!-- ajoutez les autres wilayas ici -->
+      </select>
+      <button type="submit">Envoyer</button>
+    </form>
+  </div>
 
-<form id="orderForm" style="display:none;">
-  <h3>Formulaire de Commande</h3>
-
-  <label for="prenom">Prénom</label>
-  <input type="text" name="prenom" id="prenom" placeholder="Prénom" required />
-
-  <label for="nom">Nom</label>
-  <input type="text" name="nom" id="nom" placeholder="Nom" required />
-
-  <label for="phone">Téléphone</label>
-  <input type="tel" name="phone" id="phone" placeholder="+213xxxxxxxxx" pattern="^\+?\d{7,15}$" required />
-
-  <label for="user_email">Email</label>
-  <input type="email" name="user_email" id="user_email" placeholder="Email" required />
-
-  <label for="wilaya">Adresse de livraison (Wilaya)</label>
-  <select name="wilaya" id="wilaya" required>
-    <option value="">-- Sélectionnez une wilaya --</option>
-    <option value="1 - Adrar">1 - Adrar</option>
-    <option value="2 - Chlef">2 - Chlef</option>
-    <option value="3 - Laghouat">3 - Laghouat</option>
-    <option value="4 - Oum El Bouaghi">4 - Oum El Bouaghi</option>
-    <option value="5 - Batna">5 - Batna</option>
-    <option value="6 - Béjaïa">6 - Béjaïa</option>
-    <option value="7 - Biskra">7 - Biskra</option>
-    <option value="8 - Béchar">8 - Béchar</option>
-    <option value="9 - Blida">9 - Blida</option>
-    <option value="10 - Bouira">10 - Bouira</option>
-    <option value="11 - Tamanrasset">11 - Tamanrasset</option>
-    <option value="12 - Tébessa">12 - Tébessa</option>
-    <option value="13 - Tlemcen">13 - Tlemcen</option>
-    <option value="14 - Tiaret">14 - Tiaret</option>
-    <option value="15 - Tizi Ouzou">15 - Tizi Ouzou</option>
-    <option value="16 - Alger">16 - Alger</option>
-    <option value="17 - Djelfa">17 - Djelfa</option>
-    <option value="18 - Jijel">18 - Jijel</option>
-    <option value="19 - Sétif">19 - Sétif</option>
-    <option value="20 - Saïda">20 - Saïda</option>
-    <option value="21 - Skikda">21 - Skikda</option>
-    <option value="22 - Sidi Bel Abbès">22 - Sidi Bel Abbès</option>
-    <option value="23 - Annaba">23 - Annaba</option>
-    <option value="24 - Guelma">24 - Guelma</option>
-    <option value="25 - Constantine">25 - Constantine</option>
-    <option value="26 - Médéa">26 - Médéa</option>
-    <option value="27 - Mostaganem">27 - Mostaganem</option>
-    <option value="28 - M’Sila">28 - M’Sila</option>
-    <option value="29 - Mascara">29 - Mascara</option>
-    <option value="30 - Ouargla">30 - Ouargla</option>
-    <option value="31 - Oran">31 - Oran</option>
-    <option value="32 - El Bayadh">32 - El Bayadh</option>
-    <option value="33 - Illizi">33 - Illizi</option>
-    <option value="34 - Bordj Bou Arreridj">34 - Bordj Bou Arreridj</option>
-    <option value="35 - Boumerdès">35 - Boumerdès</option>
-    <option value="36 - El Tarf">36 - El Tarf</option>
-    <option value="37 - Tindouf">37 - Tindouf</option>
-    <option value="38 - Tissemsilt">38 - Tissemsilt</option>
-    <option value="39 - El Oued">39 - El Oued</option>
-    <option value="40 - Khenchela">40 - Khenchela</option>
-    <option value="41 - Souk Ahras">41 - Souk Ahras</option>
-    <option value="42 - Tipaza">42 - Tipaza</option>
-    <option value="43 - Mila">43 - Mila</option>
-    <option value="44 - Aïn Defla">44 - Aïn Defla</option>
-    <option value="45 - Naâma">45 - Naâma</option>
-    <option value="46 - Aïn Témouchent">46 - Aïn Témouchent</option>
-    <option value="47 - Ghardaïa">47 - Ghardaïa</option>
-    <option value="48 - Relizane">48 - Relizane</option>
-  </select>
-
-  <label for="quantity">Quantité</label>
-  <select name="quantity" id="quantity" required></select>
-
-  <!-- Champs cachés -->
-  <input type="hidden" name="product" id="product" />
-  <input type="hidden" name="order_reference" id="order_reference" />
-  <input type="hidden" name="client_ip_public" id="client_ip_public" />
-  <input type="hidden" name="client_ip_local" id="client_ip_local" />
-  <input type="hidden" name="client_device" id="client_device" />
-  <input type="hidden" name="client_os" id="client_os" />
-  <input type="hidden" name="client_type" id="client_type" />
-  <input type="hidden" name="client_model" id="client_model" />
-  <input type="hidden" name="client_geo" id="client_geo" />
-  <input type="hidden" name="timestamp" id="timestamp" />
-  <input type="hidden" name="site_url" id="site_url" />
-
-  <button type="submit">Confirmer la commande</button>
-</form>
-
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script src="script.js"></script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
