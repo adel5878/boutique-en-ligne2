@@ -2,54 +2,20 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Commande de Produits</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boutique Avancée</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script>
-    (function () {
-      emailjs.init("UcOQrsNWkBJKpdq-1");
-    })();
-  </script>
 </head>
 <body>
-  <header>
-    <h1>Bienvenue sur notre boutique</h1>
-    <p>Sélectionnez un produit pour passer commande</p>
-  </header>
 
-  <main>
-    <section id="product-list" class="product-container">
-      <!-- Les produits s'afficheront ici dynamiquement -->
-    </section>
+<h2>Nos Produits</h2>
+<div class="products" id="productsContainer"></div>
 
-    <section id="form-section" style="display: none;">
-      <h2>Formulaire de Commande</h2>
-      <form id="order-form">
-        <input type="hidden" name="selected_product" id="selected-product" />
+<form id="orderForm">
+  <!-- ...formulaire inchangé à replacer ici... -->
+</form>
 
-        <label>Prénom :
-          <input type="text" name="firstname" required />
-        </label>
-        <label>Nom :
-          <input type="text" name="lastname" required />
-        </label>
-        <label>Email :
-          <input type="email" name="email" required />
-        </label>
-        <label>Wilaya :
-          <input type="text" name="wilaya" required />
-        </label>
-
-        <button type="submit">Envoyer la commande</button>
-      </form>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 - Ma Boutique Réseau</p>
-  </footer>
-
-  <script src="script.js"></script>
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
