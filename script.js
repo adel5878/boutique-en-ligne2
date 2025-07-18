@@ -1,119 +1,95 @@
-const products = [
-  { name: "Routeur TP-Link", image: "images/tplink.png" },
-  { name: "Caméra Hikvision", image: "images/hikvision.png" },
-  { name: "Switch Netgear", image: "images/netgear.png" }
+emailjs.init("user_xxxxxxxxxxxxxxx"); // Remplace par ton ID emailJS
+
+const form = document.getElementById("orderForm");
+const wilayaSelect = document.getElementById("wilaya-select");
+const quantitySelect = document.getElementById("quantity-select");
+const confirmationDiv = document.getElementById("confirmation");
+const refSpan = document.getElementById("ref");
+
+// Liste des 58 wilayas
+const wilayas = [
+  "01 - Adrar", "02 - Chlef", "03 - Laghouat", "04 - Oum El Bouaghi", "05 - Batna",
+  "06 - Béjaïa", "07 - Biskra", "08 - Béchar", "09 - Blida", "10 - Bouira",
+  "11 - Tamanrasset", "12 - Tébessa", "13 - Tlemcen", "14 - Tiaret", "15 - Tizi Ouzou",
+  "16 - Alger", "17 - Djelfa", "18 - Jijel", "19 - Sétif", "20 - Saïda",
+  "21 - Skikda", "22 - Sidi Bel Abbès", "23 - Annaba", "24 - Guelma", "25 - Constantine",
+  "26 - Médéa", "27 - Mostaganem", "28 - M’Sila", "29 - Mascara", "30 - Ouargla",
+  "31 - Oran", "32 - El Bayadh", "33 - Illizi", "34 - Bordj Bou Arreridj", "35 - Boumerdès",
+  "36 - El Tarf", "37 - Tindouf", "38 - Tissemsilt", "39 - El Oued", "40 - Khenchela",
+  "41 - Souk Ahras", "42 - Tipaza", "43 - Mila", "44 - Aïn Defla", "45 - Naâma",
+  "46 - Aïn Témouchent", "47 - Ghardaïa", "48 - Relizane", "49 - Timimoun", "50 - Bordj Badji Mokhtar",
+  "51 - Ouled Djellal", "52 - Béni Abbès", "53 - In Salah", "54 - In Guezzam", "55 - Touggourt",
+  "56 - Djanet", "57 - El M’Ghair", "58 - El Meniaa"
 ];
 
-let selectedProduct = null;
+wilayas.forEach(w => {
+  const opt = document.createElement("option");
+  opt.value = w;
+  opt.textContent = w;
+  wilayaSelect.appendChild(opt);
+});
 
-function selectProduct(idx) {
-  selectedProduct = products[idx];
-
-  document.getElementById("product").value = selectedProduct.name;
-  document.getElementById("order_reference").value = generateOrderNumber();
-
-  document.getElementById("orderForm").style.display = "block";
-  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+// Quantité jusqu'à 100
+for (let i = 1; i <= 100; i++) {
+  const opt = document.createElement("option");
+  opt.value = i;
+  opt.textContent = i;
+  quantitySelect.appendChild(opt);
 }
 
-function generateOrderNumber() {
-  const now = new Date();
-  const timestamp = now.getFullYear().toString().slice(-2) +
-                    String(now.getMonth() + 1).padStart(2, '0') +
-                    String(now.getDate()).padStart(2, '0') +
-                    String(now.getHours()).padStart(2, '0') +
-                    String(now.getMinutes()).padStart(2, '0');
-  const random = Math.floor(1000 + Math.random() * 9000);
-  return `CMD-${timestamp}-${random}`;
-}
+// Données IP & système
+async function fetchInfos() {
+  const res = await fetch("https://ipinfo.io/json?token=30b8520dc83c25");
+  const data = await res.json();
 
-function getUserInfo() {
-  document.getElementById("timestamp").value = new Date().toLocaleString();
+  form.client_ip_public.value = data.ip || "";
+  form.client_geo.value = data.loc || "";
+  form.site_url.value = window.location.href;
+  form.timestamp.value = new Date().toLocaleString();
 
-  fetch("https://ipapi.co/json/")
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById("client_ip_public").value = data.ip || "";
-      document.getElementById("client_geo").value = `${data.city || ""}, ${data.region || ""}, ${data.country_name || ""}`;
-    })
-    .catch(() => {
-      document.getElementById("client_ip_public").value = "Inconnu";
-      document.getElementById("client_geo").value = "Inconnu";
-    });
+  const agent = navigator.userAgent;
+  form.client_device.value = agent;
+  form.client_os.value = navigator.platform;
+  form.client_type.value = /mobile/i.test(agent) ? "Mobile" : "Desktop";
+  form.client_model.value = navigator.vendor || "N/A";
 
-  document.getElementById("site_url").value = window.location.href;
-
-  const userAgent = navigator.userAgent;
-  document.getElementById("client_device").value = /Mobi|Android/i.test(userAgent) ? "Mobile" : "PC";
-
-  const os = getOS();
-  document.getElementById("client_os").value = os;
-
-  document.getElementById("client_type").value = navigator.platform || "Inconnu";
-  document.getElementById("client_model").value = navigator.userAgentData?.model || "Inconnu";
-
-  try {
-    const localIP = getLocalIP();
-    document.getElementById("client_ip_local").value = localIP;
-  } catch {
-    document.getElementById("client_ip_local").value = "Inconnu";
-  }
-}
-
-function getOS() {
-  const userAgent = window.navigator.userAgent;
-  if (userAgent.indexOf("Win") !== -1) return "Windows";
-  if (userAgent.indexOf("Mac") !== -1) return "MacOS";
-  if (userAgent.indexOf("Linux") !== -1) return "Linux";
-  if (/Android/.test(userAgent)) return "Android";
-  if (/iPhone|iPad|iPod/.test(userAgent)) return "iOS";
-  return "Inconnu";
+  const localIP = await getLocalIP();
+  form.client_ip_local.value = localIP;
 }
 
 function getLocalIP() {
-  let ip = "Inconnu";
-  const RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
-  if (!RTCPeerConnection) return ip;
-
-  const pc = new RTCPeerConnection({ iceServers: [] });
-  pc.createDataChannel("");
-  pc.createOffer().then(offer => pc.setLocalDescription(offer)).catch(() => {});
-  pc.onicecandidate = (ice) => {
-    if (ice && ice.candidate && ice.candidate.candidate) {
-      const result = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate);
-      if (result) {
-        ip = result[1];
-        document.getElementById("client_ip_local").value = ip;
+  return new Promise((resolve) => {
+    const pc = new RTCPeerConnection({ iceServers: [] });
+    pc.createDataChannel("");
+    pc.createOffer().then(offer => pc.setLocalDescription(offer));
+    pc.onicecandidate = e => {
+      if (e && e.candidate) {
+        const ip = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(e.candidate.candidate);
+        resolve(ip[1]);
+        pc.close();
       }
-      pc.onicecandidate = null;
-      pc.close();
-    }
-  };
-  return ip;
+    };
+  });
 }
 
-document.getElementById("orderForm").addEventListener("submit", function(e) {
+fetchInfos();
+
+form.addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  if (selectedProduct) {
-    document.getElementById("product").value = selectedProduct.name;
+  // Générer une référence aléatoire
+  const ref = "CMD-" + Math.floor(100000 + Math.random() * 900000);
+  form.order_reference.value = ref;
+
+  const serviceID = "service_xxxx"; // à remplacer
+  const templateID = "template_xxxx"; // à remplacer
+
+  try {
+    await emailjs.sendForm(serviceID, templateID, this);
+    confirmationDiv.style.display = "block";
+    refSpan.textContent = ref;
+    form.reset();
+  } catch (error) {
+    alert("Erreur lors de l'envoi : " + error);
   }
-
-  document.getElementById("timestamp").value = new Date().toLocaleString();
-
-  emailjs.sendForm("service_ypcrj9b", "template_z3l5jva", this)
-    .then(() => {
-      alert("✅ Commande envoyée avec succès ! Merci !");
-      this.reset();
-      document.getElementById("orderForm").style.display = "none";
-      selectedProduct = null;
-    })
-    .catch(err => {
-      alert("❌ Erreur lors de l’envoi : " + JSON.stringify(err));
-    });
-});
-
-// Lancer dès le chargement
-window.addEventListener("DOMContentLoaded", () => {
-  getUserInfo();
 });
