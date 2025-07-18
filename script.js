@@ -1,5 +1,6 @@
 // Initialiser EmailJS avec ton User ID
-emailjs.init("PRWN5poGo1YbcMfmq");
+import emailjs from '@emailjs/browser';
+emailjs.init({ publicKey: "PRWN5poGo1YbcMfmq" });
 
 // Remplir la quantité (1 à 100)
 const quantiteSelect = document.getElementById("quantite");
