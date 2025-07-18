@@ -38,19 +38,25 @@ orderForm.addEventListener("submit", function (e) {
   const refCommande = genererReference();
 
   // Préparer les données pour EmailJS
-  const templateParams = {
-    order_reference: refCommande,
-    produit: produitSelect.value,
-    wilaya: this.wilaya.value,
-    quantite: this.quantite.value,
-    prenom: this.prenom.value,
-    nom: this.nom.value,
-    user_email: this.email.value,
-    telephone: this.telephone.value,
-    timestamp: new Date().toLocaleString(),
-    site_url: window.location.href,
-    client_device: navigator.userAgent,
-  };
+const templateParams = {
+  order_reference: refCommande,
+  produit: produitSelect.value,
+  wilaya: this.wilaya.value,
+  quantite: this.quantite.value,
+  prenom: this.prenom.value,
+  nom: this.nom.value,
+  user_email: this.email.value,
+  phone: this.telephone.value, // <-- ici corrigé
+  timestamp: new Date().toLocaleString(),
+  site_url: window.location.href,
+  client_device: navigator.userAgent,
+  client_ip_public: "",     // à remplir avec une API si besoin
+  client_ip_local: "",      // idem
+  client_os: "",            // optionnel, peut être extrait de `navigator.userAgent`
+  client_type: "",          // optionnel
+  client_model: "",         // optionnel
+  client_geo: "",           // optionnel
+};
 
   emailjs.send("service_ck03zot", "template_99pjvzj", templateParams)
     .then(() => {
