@@ -1,40 +1,56 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Commande</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Commande Produit</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <h1>Liste des produits</h1>
 
-  <h2>📦 Nouvelle commande</h2>
-  <form id="orderForm">
-    <label>Prénom : <input type="text" name="prenom" required></label><br>
-    <label>Nom : <input type="text" name="nom" required></label><br>
-    <label>Email : <input type="email" name="email" required></label><br>
-    <label>Wilaya :
-      <select name="wilaya" required>
-        <option value="">-- Sélectionnez --</option>
-        <option value="13 - Tlemcen">13 - Tlemcen</option>
-        <option value="16 - Alger">16 - Alger</option>
-        <!-- Ajoute d'autres wilayas ici -->
+  <div class="produit">
+    <h2>Routeur TP-Link</h2>
+    <button class="btn-commande" data-product="Routeur TP-Link">Commander</button>
+  </div>
+
+  <div id="order-form-container" style="display: none;">
+    <h2>Formulaire de commande</h2>
+    <form id="order-form">
+      <label for="produit">Produit :</label>
+      <select id="produit" name="produit" required>
+        <option value="Routeur TP-Link">Routeur TP-Link</option>
       </select>
-    </label><br>
-    <label>Produit : <input type="text" name="produit" required></label><br>
-    <label>Quantité : <input type="number" name="quantite" required min="1"></label><br>
-    <button type="submit">Envoyer</button>
-  </form>
 
-  <p id="status"></p>
+      <label for="quantite">Quantité :</label>
+      <select id="quantite" name="quantite" required></select>
 
-  <!-- 📦 EmailJS SDK à jour -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+      <label for="prenom">Prénom :</label>
+      <input type="text" id="prenom" name="prenom" required />
+
+      <label for="nom">Nom :</label>
+      <input type="text" id="nom" name="nom" required />
+
+      <label for="email">Email :</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="telephone">Téléphone :</label>
+      <input type="tel" id="telephone" name="telephone" required />
+
+      <label for="wilaya">Wilaya :</label>
+      <select id="wilaya" name="wilaya" required>
+        <option value="13 - Tlemcen">13 - Tlemcen</option>
+        <!-- Ajoute d'autres wilayas si besoin -->
+      </select>
+
+      <button type="submit">Envoyer Commande</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
-    emailjs.init("PRWN5poGo1YbcMfmq"); // Ton public key
+    emailjs.init("PRWN5poGo1YbcMfmq");
   </script>
-
-  <!-- Ton script -->
   <script src="script.js"></script>
-
 </body>
 </html>
