@@ -1,133 +1,55 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html><html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Commande Produit</title>
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
-  <script>
-    (function() {
-      emailjs.init("YfgUnjpr42HdDJboZ");
-    })();
-  </script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f8f8;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      max-width: 700px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-    }
-    .product {
-      border: 1px solid #ddd;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-    }
-    form {
-      margin-top: 20px;
-    }
-    .hidden {
-      display: none;
-    }
-    .success-message {
-      background-color: #d4edda;
-      color: #155724;
-      padding: 10px;
-      margin-top: 20px;
-      border: 1px solid #c3e6cb;
-      border-radius: 5px;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulaire de Commande</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="form-container">
+    <h1>🛒 Formulaire de Commande</h1>
+    <form id="commandeForm">
+      <label>Prénom</label>
+      <input type="text" name="prenom" required /><label>Nom</label>
+  <input type="text" name="nom" required />
 
-<div class="container">
-  <h2>Nos Produits</h2>
-  <div id="produits">
-    <div class="product">
-      <h4>Routeur TP-Link</h4>
-      <button onclick="commander('Routeur TP-Link')">Commander</button>
-    </div>
-    <div class="product">
-      <h4>Caméra Hikvision</h4>
-      <button onclick="commander('Caméra Hikvision')">Commander</button>
-    </div>
-  </div>
+  <label>Téléphone</label>
+  <input type="tel" name="phone" required pattern="[0-9]{10}" />
 
-  <form id="commandeForm" class="hidden">
-    <input type="hidden" id="produit" name="produit" />
+  <label>Email</label>
+  <input type="email" name="user_email" required />
 
-    <label>Prénom : <input type="text" id="prenom" required></label><br><br>
-    <label>Nom : <input type="text" id="nom" required></label><br><br>
-    <label>Téléphone : <input type="text" id="phone" required></label><br><br>
-    <label>Email : <input type="email" id="email" required></label><br><br>
-    <label>Wilaya :
-      <select id="wilaya" required>
-        <option value="">Sélectionnez</option>
-        ${[...Array(58)].map((_, i) => `<option value="${i+1}">Wilaya ${i+1}</option>`).join('')}
-      </select>
-    </label><br><br>
-    <label>Quantité :
-      <select id="quantity">
-        ${[...Array(100)].map((_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
-      </select>
-    </label><br><br>
+  <label>Wilaya</label>
+  <select name="wilaya" required id="wilayaSelect"></select>
 
-    <button type="submit">Envoyer la commande</button>
-  </form>
+  <label>Produit</label>
+  <input type="text" name="product" required />
 
-  <div id="successMessage" class="success-message hidden">
-    ✅ Commande envoyée avec succès.
-  </div>
-</div>
+  <label>Quantité</label>
+  <select name="quantity">
+    <!-- options de 1 à 100 -->
+    <script>
+      for (let i = 1; i <= 100; i++) {
+        document.write(`<option value="${i}">${i}</option>`);
+      }
+    </script>
+  </select>
 
-<script>
-  function commander(produit) {
-    document.getElementById("produit").value = produit;
-    document.getElementById("commandeForm").classList.remove("hidden");
-    window.scrollTo(0, document.body.scrollHeight);
-  }
+  <!-- Champs cachés ajoutés dynamiquement par JS -->
+  <input type="hidden" name="order_reference" id="order_reference" />
+  <input type="hidden" name="timestamp" id="timestamp" />
+  <input type="hidden" name="site_url" id="site_url" />
+  <input type="hidden" name="client_ip_public" id="client_ip_public" />
+  <input type="hidden" name="client_ip_local" id="client_ip_local" />
+  <input type="hidden" name="client_device" id="client_device" />
+  <input type="hidden" name="client_os" id="client_os" />
+  <input type="hidden" name="client_type" id="client_type" />
+  <input type="hidden" name="client_model" id="client_model" />
+  <input type="hidden" name="client_geo" id="client_geo" />
 
-  document.getElementById("commandeForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+  <button type="submit">✅ Valider la commande</button>
+</form>
+<p id="confirmation" class="confirmation"></p>
 
-    const data = {
-      prenom: document.getElementById("prenom").value,
-      nom: document.getElementById("nom").value,
-      phone: document.getElementById("phone").value,
-      user_email: document.getElementById("email").value,
-      wilaya: document.getElementById("wilaya").value,
-      product: document.getElementById("produit").value,
-      quantity: document.getElementById("quantity").value,
-      timestamp: new Date().toLocaleString(),
-      order_reference: Math.floor(Math.random() * 1000000),
-      site_url: window.location.href,
-      client_ip_public: "N/A",
-      client_ip_local: "N/A",
-      client_device: navigator.userAgent,
-      client_os: navigator.platform,
-      client_type: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
-      client_model: "N/A",
-      client_geo: "N/A"
-    };
-
-    emailjs.send("service_wj3yb6e", "template_g6jzls8", data)
-      .then(() => {
-        document.getElementById("commandeForm").reset();
-        document.getElementById("commandeForm").classList.add("hidden");
-        document.getElementById("successMessage").classList.remove("hidden");
-      }, (error) => {
-        alert("Erreur lors de l'envoi : " + JSON.stringify(error));
-      });
-  });
-</script>
-
-</body>
+  </div>  <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@1.0.2/src/ua-parser.min.js"></script>  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>  <script src="script.js"></script></body>
 </html>
