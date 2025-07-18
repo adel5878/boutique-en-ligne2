@@ -124,8 +124,10 @@
       <button type="submit">Envoyer la commande</button>
     </form>
   </div>
+<!-- Charge EmailJS (mise à jour) -->
+<script type="module" src="https://cdn.emailjs.com/dist/email.min.js"></script>
 
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script src="script.js"></script>
+<!-- Ton script.js doit venir ensuite -->
+<script src="script.js" defer></script>
 </body>
 </html>
