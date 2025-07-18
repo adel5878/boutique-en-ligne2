@@ -1,133 +1,40 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ma Boutique</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commande</title>
 </head>
 <body>
-  <h1>Nos Produits</h1>
-  
-  <div class="products-container">
-    <div class="product-card">
-      <img src="images/tp-link.jpg" alt="Routeur TP-Link" />
-      <h3>Routeur TP-Link</h3>
-      <p>Wi-Fi N300 Mbps, 4 ports LAN gigabit, sécurité WPA2</p>
-      <button class="btn-commande" data-product="Routeur TP-Link">Commander</button>
-    </div>
 
-    <div class="product-card">
-      <img src="images/netgear-switch.jpg" alt="Switch 8 Ports" />
-      <h3>Switch 8 Ports</h3>
-      <p>8 ports gigabit RJ45, plug and play, boîtier métal</p>
-      <button class="btn-commande" data-product="Switch 8 Ports">Commander</button>
-    </div>
-
-    <div class="product-card">
-      <img src="images/hikvision-camera.jpg" alt="Caméra IP" />
-      <h3>Caméra IP</h3>
-      <p>4MP HD, vision nocturne, détection mouvement</p>
-      <button class="btn-commande" data-product="Caméra IP">Commander</button>
-    </div>
-  </div>
-
-  <div id="order-form-container" style="display:none;">
-    <h2>Formulaire de commande</h2>
-    <form id="order-form">
-      <label for="produit">Produit :</label>
-      <select id="produit" name="produit" required>
-        <option value="">-- Choisir un produit --</option>
-        <option value="Routeur TP-Link">Routeur TP-Link</option>
-        <option value="Switch 8 Ports">Switch 8 Ports</option>
-        <option value="Caméra IP">Caméra IP</option>
-      </select>
-
-      <label for="wilaya">Wilaya :</label>
-      <select id="wilaya" name="wilaya" required>
-        <option value="">-- Choisir une wilaya --</option>
-        <option value="01 - Adrar">01 - Adrar</option>
-        <option value="02 - Chlef">02 - Chlef</option>
-        <option value="03 - Laghouat">03 - Laghouat</option>
-        <option value="04 - Oum El Bouaghi">04 - Oum El Bouaghi</option>
-        <option value="05 - Batna">05 - Batna</option>
-        <option value="06 - Béjaïa">06 - Béjaïa</option>
-        <option value="07 - Biskra">07 - Biskra</option>
-        <option value="08 - Béchar">08 - Béchar</option>
-        <option value="09 - Blida">09 - Blida</option>
-        <option value="10 - Bouira">10 - Bouira</option>
-        <option value="11 - Tamanrasset">11 - Tamanrasset</option>
-        <option value="12 - Tébessa">12 - Tébessa</option>
+  <h2>📦 Nouvelle commande</h2>
+  <form id="orderForm">
+    <label>Prénom : <input type="text" name="prenom" required></label><br>
+    <label>Nom : <input type="text" name="nom" required></label><br>
+    <label>Email : <input type="email" name="email" required></label><br>
+    <label>Wilaya :
+      <select name="wilaya" required>
+        <option value="">-- Sélectionnez --</option>
         <option value="13 - Tlemcen">13 - Tlemcen</option>
-        <option value="14 - Tiaret">14 - Tiaret</option>
-        <option value="15 - Tizi Ouzou">15 - Tizi Ouzou</option>
         <option value="16 - Alger">16 - Alger</option>
-        <option value="17 - Djelfa">17 - Djelfa</option>
-        <option value="18 - Jijel">18 - Jijel</option>
-        <option value="19 - Sétif">19 - Sétif</option>
-        <option value="20 - Saïda">20 - Saïda</option>
-        <option value="21 - Skikda">21 - Skikda</option>
-        <option value="22 - Sidi Bel Abbès">22 - Sidi Bel Abbès</option>
-        <option value="23 - Annaba">23 - Annaba</option>
-        <option value="24 - Guelma">24 - Guelma</option>
-        <option value="25 - Constantine">25 - Constantine</option>
-        <option value="26 - Médéa">26 - Médéa</option>
-        <option value="27 - Mostaganem">27 - Mostaganem</option>
-        <option value="28 - M’Sila">28 - M’Sila</option>
-        <option value="29 - Mascara">29 - Mascara</option>
-        <option value="30 - Ouargla">30 - Ouargla</option>
-        <option value="31 - Oran">31 - Oran</option>
-        <option value="32 - El Bayadh">32 - El Bayadh</option>
-        <option value="33 - Illizi">33 - Illizi</option>
-        <option value="34 - Bordj Bou Arreridj">34 - Bordj Bou Arreridj</option>
-        <option value="35 - Boumerdès">35 - Boumerdès</option>
-        <option value="36 - El Tarf">36 - El Tarf</option>
-        <option value="37 - Tindouf">37 - Tindouf</option>
-        <option value="38 - Tissemsilt">38 - Tissemsilt</option>
-        <option value="39 - El Oued">39 - El Oued</option>
-        <option value="40 - Khenchela">40 - Khenchela</option>
-        <option value="41 - Souk Ahras">41 - Souk Ahras</option>
-        <option value="42 - Tipaza">42 - Tipaza</option>
-        <option value="43 - Mila">43 - Mila</option>
-        <option value="44 - Aïn Defla">44 - Aïn Defla</option>
-        <option value="45 - Naâma">45 - Naâma</option>
-        <option value="46 - Aïn Témouchent">46 - Aïn Témouchent</option>
-        <option value="47 - Ghardaïa">47 - Ghardaïa</option>
-        <option value="48 - Relizane">48 - Relizane</option>
-        <option value="49 - El M’Ghair">49 - El M’Ghair</option>
-        <option value="50 - El Menia">50 - El Menia</option>
-        <option value="51 - Ouled Djellal">51 - Ouled Djellal</option>
-        <option value="52 - Bordj Baji Mokhtar">52 - Bordj Baji Mokhtar</option>
-        <option value="53 - Béni Abbès">53 - Béni Abbès</option>
-        <option value="54 - Timimoun">54 - Timimoun</option>
-        <option value="55 - Touggourt">55 - Touggourt</option>
-        <option value="56 - Djanet">56 - Djanet</option>
-        <option value="57 - In Salah">57 - In Salah</option>
-        <option value="58 - In Guezzam">58 - In Guezzam</option>
+        <!-- Ajoute d'autres wilayas ici -->
       </select>
+    </label><br>
+    <label>Produit : <input type="text" name="produit" required></label><br>
+    <label>Quantité : <input type="number" name="quantite" required min="1"></label><br>
+    <button type="submit">Envoyer</button>
+  </form>
 
-      <label for="quantite">Quantité :</label>
-      <select id="quantite" name="quantite" required></select>
+  <p id="status"></p>
 
-      <label for="prenom">Prénom :</label>
-      <input type="text" id="prenom" name="prenom" required />
+  <!-- 📦 EmailJS SDK à jour -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    emailjs.init("PRWN5poGo1YbcMfmq"); // Ton public key
+  </script>
 
-      <label for="nom">Nom :</label>
-      <input type="text" id="nom" name="nom" required />
+  <!-- Ton script -->
+  <script src="script.js"></script>
 
-      <label for="email">Email :</label>
-      <input type="email" id="email" name="email" required />
-
-      <label for="telephone">Téléphone :</label>
-      <input type="tel" id="telephone" name="telephone" placeholder="+213xxxxxxxxx" pattern="^\+?\d{7,15}$" required />
-
-      <button type="submit">Envoyer la commande</button>
-    </form>
-  </div>
-<!-- Charge EmailJS (mise à jour) -->
-<script type="module" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-
-<!-- Ton script.js doit venir ensuite -->
-<script src="script.js" defer></script>
 </body>
 </html>
