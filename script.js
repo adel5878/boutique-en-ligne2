@@ -51,7 +51,7 @@ orderForm.addEventListener("submit", function (e) {
     client_device: navigator.userAgent,
   };
 
-  emailjs.send("service_ho12zts", "template_99pjvzj", templateParams)
+  emailjs.send("service_ck03zot", "template_99pjvzj", templateParams)
     .then(() => {
       alert(`Commande envoyée avec succès !\nRéférence: ${refCommande}`);
       orderForm.reset();
