@@ -2,55 +2,201 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Commande Produit</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Formulaire de commande</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #fff;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #28a745;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      margin-top: 16px;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="tel"],
+    form input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    form input[type="text"]:focus,
+    form input[type="email"]:focus,
+    form input[type="tel"]:focus,
+    form input[type="number"]:focus {
+      border-color: #28a745;
+      outline: none;
+    }
+
+    button {
+      margin-top: 24px;
+      width: 100%;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 15px 20px;
+      }
+
+      button {
+        padding: 12px;
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Liste des produits</h1>
-
-  <div class="produit">
-    <h2>Routeur TP-Link</h2>
-    <button class="btn-commande" data-product="Routeur TP-Link">Commander</button>
-  </div>
-
-  <div id="order-form-container" style="display: none;">
-    <h2>Formulaire de commande</h2>
-    <form id="order-form">
-      <label for="produit">Produit :</label>
-      <select id="produit" name="produit" required>
-        <option value="Routeur TP-Link">Routeur TP-Link</option>
-      </select>
-
-      <label for="quantite">Quantité :</label>
-      <select id="quantite" name="quantite" required></select>
-
-      <label for="prenom">Prénom :</label>
+  <div class="container">
+    <h2>📦 Formulaire de commande</h2>
+    <form id="orderForm">
+      <label for="prenom">Prénom *</label>
       <input type="text" id="prenom" name="prenom" required />
 
-      <label for="nom">Nom :</label>
+      <label for="nom">Nom *</label>
       <input type="text" id="nom" name="nom" required />
 
-      <label for="email">Email :</label>
-      <input type="email" id="email" name="email" required />
+      <label for="phone">Téléphone</label>
+      <input type="tel" id="phone" name="phone" />
 
-      <label for="telephone">Téléphone :</label>
-      <input type="tel" id="telephone" name="telephone" required />
+      <label for="user_email">Email *</label>
+      <input type="email" id="user_email" name="user_email" required />
 
-      <label for="wilaya">Wilaya :</label>
-      <select id="wilaya" name="wilaya" required>
-        <option value="13 - Tlemcen">13 - Tlemcen</option>
-        <!-- Ajoute d'autres wilayas si besoin -->
-      </select>
+      <label for="wilaya">Wilaya</label>
+      <input type="text" id="wilaya" name="wilaya" />
 
-      <button type="submit">Envoyer Commande</button>
+      <label for="product">Produit *</label>
+      <input type="text" id="product" name="product" required />
+
+      <label for="quantity">Quantité *</label>
+      <input type="number" id="quantity" name="quantity" min="1" value="1" required />
+
+      <button type="submit">Envoyer la commande</button>
     </form>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
-    emailjs.init("PRWN5poGo1YbcMfmq");
+    const EMAILJS_PUBLIC_KEY = 'PRWN5poGo1YbcMfmq';
+    const EMAILJS_SERVICE_ID = 'service_ck03zot';
+    const EMAILJS_TEMPLATE_ID = 'template_99pjvzj';
+    const IPINFO_TOKEN = '30b8520dc83c25';
+
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+
+    // Fonction pour récupérer IP locale via WebRTC
+    function getLocalIP() {
+      return new Promise((resolve) => {
+        let ip = '';
+        const rtc = new RTCPeerConnection({iceServers: []});
+        rtc.createDataChannel('');
+        rtc.createOffer().then(sdp => rtc.setLocalDescription(sdp));
+        rtc.onicecandidate = (evt) => {
+          if (!evt || !evt.candidate) {
+            rtc.close();
+            resolve(ip || 'N/A');
+            return;
+          }
+          const candidate = evt.candidate.candidate;
+          const regex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
+          const match = candidate.match(regex);
+          if (match) {
+            ip = match[1];
+          }
+        };
+      });
+    }
+
+    async function getPublicIPandGeo() {
+      try {
+        const response = await fetch(`https://ipinfo.io/json?token=${IPINFO_TOKEN}`);
+        if (!response.ok) throw new Error('Erreur API IPInfo');
+        const data = await response.json();
+        return {
+          ip: data.ip || 'N/A',
+          geo: `${data.city || ''}, ${data.country || ''}`.trim() || 'N/A',
+        };
+      } catch {
+        return { ip: 'N/A', geo: 'N/A' };
+      }
+    }
+
+    document.getElementById('orderForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const form = event.target;
+      const formData = new FormData(form);
+
+      const localIP = await getLocalIP();
+      const publicData = await getPublicIPandGeo();
+
+      const dataToSend = {
+        order_reference: 'CMD' + Math.floor(1000 + Math.random() * 9000),
+        prenom: formData.get('prenom'),
+        nom: formData.get('nom'),
+        phone: formData.get('phone') || '-',
+        user_email: formData.get('user_email'),
+        wilaya: formData.get('wilaya') || '-',
+        product: formData.get('product'),
+        quantity: formData.get('quantity'),
+        timestamp: new Date().toLocaleString('fr-FR'),
+        client_ip_public: publicData.ip,
+        client_ip_local: localIP,
+        client_device: navigator.userAgent,
+        client_os: navigator.platform,
+        client_type: 'N/A',
+        client_model: 'N/A',
+        client_geo: publicData.geo,
+        site_url: window.location.href,
+      };
+
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, dataToSend);
+        alert('✅ Commande envoyée avec succès !');
+        form.reset();
+      } catch (error) {
+        alert('❌ Erreur lors de l’envoi : ' + (error.text || error.message));
+      }
+    });
   </script>
-  <script src="script.js"></script>
 </body>
 </html>
