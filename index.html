@@ -2,200 +2,122 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Formulaire de commande</title>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      padding: 20px;
-      margin: 0;
+      margin: 20px;
     }
-
-    .container {
-      background-color: #fff;
-      max-width: 600px;
+    form {
+      max-width: 400px;
       margin: auto;
-      padding: 20px 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-
-    h2 {
-      color: #28a745;
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    form label {
-      display: block;
-      margin-bottom: 8px;
+    label {
       font-weight: bold;
-      margin-top: 16px;
+      display: block;
+      margin-top: 15px;
     }
-
-    form input[type="text"],
-    form input[type="email"],
-    form input[type="tel"],
-    form input[type="number"] {
+    input, select, button {
       width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      padding: 8px;
+      margin-top: 5px;
       box-sizing: border-box;
-      transition: border-color 0.3s;
     }
-
-    form input[type="text"]:focus,
-    form input[type="email"]:focus,
-    form input[type="tel"]:focus,
-    form input[type="number"]:focus {
-      border-color: #28a745;
-      outline: none;
-    }
-
     button {
-      margin-top: 24px;
-      width: 100%;
-      background-color: #28a745;
+      margin-top: 20px;
+      background-color: #007bff;
       color: white;
       border: none;
-      padding: 14px;
-      font-size: 1.1rem;
-      border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.3s;
     }
-
     button:hover {
-      background-color: #218838;
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        padding: 15px 20px;
-      }
-
-      button {
-        padding: 12px;
-        font-size: 1rem;
-      }
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>📦 Formulaire de commande</h2>
-    <form id="orderForm">
-      <label for="prenom">Prénom *</label>
-      <input type="text" id="prenom" name="prenom" required />
 
-      <label for="nom">Nom *</label>
-      <input type="text" id="nom" name="nom" required />
+  <h2>🛒 Formulaire de commande</h2>
 
-      <label for="phone">Téléphone</label>
-      <input type="tel" id="phone" name="phone" />
+  <form id="commande-form">
+    <label for="prenom">Prénom</label>
+    <input type="text" id="prenom" name="prenom" required />
 
-      <label for="user_email">Email *</label>
-      <input type="email" id="user_email" name="user_email" required />
+    <label for="nom">Nom</label>
+    <input type="text" id="nom" name="nom" required />
 
-      <label for="wilaya">Wilaya</label>
-      <input type="text" id="wilaya" name="wilaya" />
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required />
 
-      <label for="product">Produit *</label>
-      <input type="text" id="product" name="product" required />
+    <label for="wilaya">Adresse de livraison</label>
+    <select id="wilaya" name="wilaya" required>
+      <option value="">-- Sélectionnez une wilaya --</option>
+      <!-- Wilayas 1 à 58 -->
+      ${[...Array(58).keys()].map(i => {
+        const wilayas = [
+          "Adrar","Chlef","Laghouat","Oum El Bouaghi","Batna","Béjaïa","Biskra","Béchar","Blida","Bouira",
+          "Tamanrasset","Tébessa","Tlemcen","Tiaret","Tizi Ouzou","Alger","Djelfa","Jijel","Sétif","Saïda",
+          "Skikda","Sidi Bel Abbès","Annaba","Guelma","Constantine","Médéa","Mostaganem","M’Sila","Mascara","Ouargla",
+          "Oran","El Bayadh","Illizi","Bordj Bou Arréridj","Boumerdès","El Tarf","Tindouf","Tissemsilt","El Oued","Khenchela",
+          "Souk Ahras","Tipaza","Mila","Aïn Defla","Naâma","Aïn Témouchent","Ghardaïa","Relizane",
+          "Timimoun","Bordj Badji Mokhtar","Ouled Djellal","Béni Abbès","In Salah","In Guezzam","Touggourt","Djanet","El M’Ghair","El Meniaa"
+        ];
+        return `<option value="${i+1} - ${wilayas[i]}">${i+1} - ${wilayas[i]}</option>`;
+      }).join("")}
+    </select>
 
-      <label for="quantity">Quantité *</label>
-      <input type="number" id="quantity" name="quantity" min="1" value="1" required />
+    <label for="produit">Produit</label>
+    <select id="produit" name="produit" required>
+      <option value="">-- Sélectionnez un produit --</option>
+      <option>Routeur</option>
+      <option>Switch</option>
+      <option>Câble FTP</option>
+      <option>Point d'accès</option>
+    </select>
 
-      <button type="submit">Envoyer la commande</button>
-    </form>
-  </div>
+    <label for="quantite">Quantité</label>
+    <select id="quantite" name="quantite" required>
+      ${[...Array(100).keys()].map(i => `<option value="${i+1}">${i+1}</option>`).join("")}
+    </select>
+
+    <button type="submit">Envoyer la commande</button>
+  </form>
 
   <script>
-    const EMAILJS_PUBLIC_KEY = 'PRWN5poGo1YbcMfmq';
-    const EMAILJS_SERVICE_ID = 'service_ck03zot';
-    const EMAILJS_TEMPLATE_ID = 'template_99pjvzj';
-    const IPINFO_TOKEN = '30b8520dc83c25';
+    // Initialiser EmailJS
+    emailjs.init("PRWN5poGo1YbcMfmq");
 
-    emailjs.init(EMAILJS_PUBLIC_KEY);
-
-    // Fonction pour récupérer IP locale via WebRTC
-    function getLocalIP() {
-      return new Promise((resolve) => {
-        let ip = '';
-        const rtc = new RTCPeerConnection({iceServers: []});
-        rtc.createDataChannel('');
-        rtc.createOffer().then(sdp => rtc.setLocalDescription(sdp));
-        rtc.onicecandidate = (evt) => {
-          if (!evt || !evt.candidate) {
-            rtc.close();
-            resolve(ip || 'N/A');
-            return;
-          }
-          const candidate = evt.candidate.candidate;
-          const regex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
-          const match = candidate.match(regex);
-          if (match) {
-            ip = match[1];
-          }
-        };
-      });
-    }
-
-    async function getPublicIPandGeo() {
-      try {
-        const response = await fetch(`https://ipinfo.io/json?token=${IPINFO_TOKEN}`);
-        if (!response.ok) throw new Error('Erreur API IPInfo');
-        const data = await response.json();
-        return {
-          ip: data.ip || 'N/A',
-          geo: `${data.city || ''}, ${data.country || ''}`.trim() || 'N/A',
-        };
-      } catch {
-        return { ip: 'N/A', geo: 'N/A' };
-      }
-    }
-
-    document.getElementById('orderForm').addEventListener('submit', async (event) => {
+    document.getElementById("commande-form").addEventListener("submit", function(event) {
       event.preventDefault();
 
-      const form = event.target;
+      const form = this;
       const formData = new FormData(form);
+      const clientData = Object.fromEntries(formData.entries());
 
-      const localIP = await getLocalIP();
-      const publicData = await getPublicIPandGeo();
+      // Ajouter date, URL et IP publique à envoyer
+      const now = new Date().toLocaleString();
+      const currentUrl = window.location.href;
 
-      const dataToSend = {
-        order_reference: 'CMD' + Math.floor(1000 + Math.random() * 9000),
-        prenom: formData.get('prenom'),
-        nom: formData.get('nom'),
-        phone: formData.get('phone') || '-',
-        user_email: formData.get('user_email'),
-        wilaya: formData.get('wilaya') || '-',
-        product: formData.get('product'),
-        quantity: formData.get('quantity'),
-        timestamp: new Date().toLocaleString('fr-FR'),
-        client_ip_public: publicData.ip,
-        client_ip_local: localIP,
-        client_device: navigator.userAgent,
-        client_os: navigator.platform,
-        client_type: 'N/A',
-        client_model: 'N/A',
-        client_geo: publicData.geo,
-        site_url: window.location.href,
-      };
+      fetch("https://api.ipify.org?format=json")
+        .then(res => res.json())
+        .then(data => {
+          clientData.date = now;
+          clientData.page = currentUrl;
+          clientData.ip = data.ip;
 
-      try {
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, dataToSend);
-        alert('✅ Commande envoyée avec succès !');
-        form.reset();
-      } catch (error) {
-        alert('❌ Erreur lors de l’envoi : ' + (error.text || error.message));
-      }
+          // Envoi via EmailJS
+          emailjs.send("service_ck03zot", "template_99pjvzj", clientData)
+            .then(() => {
+              alert("✅ Commande envoyée avec succès !");
+              form.reset();
+            })
+            .catch(error => {
+              console.error("Erreur :", error);
+              alert("❌ Une erreur est survenue lors de l'envoi.");
+            });
+        });
     });
   </script>
 </body>
