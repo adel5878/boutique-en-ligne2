@@ -2,87 +2,76 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Formulaire de commande</title>
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commande</title>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 10px;
-      background: #f9f9f9;
+      font-family: sans-serif;
+      padding: 20px;
+      background-color: #f8f8f8;
     }
     form {
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
       max-width: 500px;
       margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
     }
     label {
       display: block;
       margin-top: 15px;
+      font-weight: bold;
     }
-    select, input, textarea, button {
+    input, select, button {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
       border-radius: 5px;
       border: 1px solid #ccc;
-      font-size: 1rem;
     }
     button {
-      background-color: #28a745;
+      background-color: #2c3e50;
       color: white;
+      font-weight: bold;
       cursor: pointer;
       margin-top: 20px;
     }
-    button:hover {
-      background-color: #218838;
+    #message {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+      color: green;
     }
   </style>
 </head>
 <body>
 
   <form id="order-form">
-    <h2>Commande</h2>
+    <h2>Formulaire de commande</h2>
 
     <label for="prenom">Prénom</label>
-    <input type="text" id="prenom" name="prenom" required />
+    <input type="text" id="prenom" name="prenom" required>
 
     <label for="nom">Nom</label>
-    <input type="text" id="nom" name="nom" required />
+    <input type="text" id="nom" name="nom" required>
 
     <label for="email">Email</label>
-    <input type="email" id="email" name="email" required />
+    <input type="email" id="email" name="email" required>
 
     <label for="wilaya">Adresse de livraison</label>
     <select id="wilaya" name="wilaya" required>
-      <option value="">-- Sélectionnez votre wilaya --</option>
-      <!-- Wilayas 1 à 58 -->
-      <script>
-        const wilayas = [
-          "Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béjaïa", "Biskra", "Béchar", "Blida", "Bouira",
-          "Tamanrasset", "Tébessa", "Tlemcen", "Tiaret", "Tizi Ouzou", "Alger", "Djelfa", "Jijel", "Sétif", "Saïda",
-          "Skikda", "Sidi Bel Abbès", "Annaba", "Guelma", "Constantine", "Médéa", "Mostaganem", "M’Sila", "Mascara", "Ouargla",
-          "Oran", "El Bayadh", "Illizi", "Bordj Bou Arréridj", "Boumerdès", "El Tarf", "Tindouf", "Tissemsilt", "El Oued", "Khenchela",
-          "Souk Ahras", "Tipaza", "Mila", "Aïn Defla", "Naâma", "Aïn Témouchent", "Ghardaïa", "Relizane", "Timimoun", "Bordj Badji Mokhtar",
-          "Ouled Djellal", "Béni Abbès", "In Salah", "In Guezzam", "Touggourt", "Djanet", "El M’Ghair", "El Meniaa"
-        ];
-        document.addEventListener('DOMContentLoaded', () => {
-          const wilayaSelect = document.getElementById("wilaya");
-          wilayas.forEach((name, index) => {
-            const option = document.createElement("option");
-            option.value = `${index + 1} - ${name}`;
-            option.textContent = `${index + 1} - ${name}`;
-            wilayaSelect.appendChild(option);
-          });
-        });
-      </script>
+      <option value="">-- Sélectionner --</option>
     </select>
 
     <label for="produit">Produit</label>
     <select id="produit" name="produit" required>
+      <option value="">-- Sélectionner --</option>
       <option value="Routeur">Routeur</option>
       <option value="Switch">Switch</option>
       <option value="Câble FTP">Câble FTP</option>
@@ -90,59 +79,82 @@
     </select>
 
     <label for="quantite">Quantité</label>
-    <select id="quantite" name="quantite" required></select>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const quantiteSelect = document.getElementById("quantite");
-        for (let i = 1; i <= 100; i++) {
-          const option = document.createElement("option");
-          option.value = i;
-          option.text = i;
-          quantiteSelect.appendChild(option);
-        }
-      });
-    </script>
+    <select id="quantite" name="quantite" required>
+      <option value="">-- Sélectionner --</option>
+    </select>
 
     <button type="submit">Envoyer la commande</button>
+    <div id="message"></div>
   </form>
 
   <script>
+    // Initialisation EmailJS
     emailjs.init("PRWN5poGo1YbcMfmq");
 
-    document.getElementById("order-form").addEventListener("submit", function (e) {
+    const form = document.getElementById("order-form");
+    const messageDiv = document.getElementById("message");
+
+    // Remplir la liste des 58 wilayas
+    const wilayas = [
+      "1-Adrar", "2-Chlef", "3-Laghouat", "4-Oum El Bouaghi", "5-Batna", "6-Béjaïa", "7-Biskra", "8-Béchar",
+      "9-Blida", "10-Bouira", "11-Tamanrasset", "12-Tébessa", "13-Tlemcen", "14-Tiaret", "15-Tizi Ouzou",
+      "16-Alger", "17-Djelfa", "18-Jijel", "19-Sétif", "20-Saïda", "21-Skikda", "22-Sidi Bel Abbès",
+      "23-Annaba", "24-Guelma", "25-Constantine", "26-Médéa", "27-Mostaganem", "28-M’Sila", "29-Mascara",
+      "30-Ghardaïa", "31-Relizane", "32-El Oued", "33-El Tarf", "34-Tindouf", "35-Tissemsilt", "36-El Bayadh",
+      "37-Illizi", "38-Bordj Bou Arréridj", "39-Boumerdès", "40-El Tarf", "41-Tindouf", "42-Tissemsilt",
+      "43-El Bayadh", "44-Illizi", "45-Bordj Badji Mokhtar", "46-Béni Abbès", "47-Timimoun", "48-Touggourt",
+      "49-Djanet", "50-In Salah", "51-In Guezzam", "52-El M'Ghair", "53-El Meniaa", "54-Ouled Djellal",
+      "55-Bordj Baji Mokhtar", "56-Béni Abbès", "57-Timimoun", "58-Touggourt"
+    ];
+    const wilayaSelect = document.getElementById("wilaya");
+    wilayas.forEach(w => {
+      const option = document.createElement("option");
+      option.value = w;
+      option.textContent = w;
+      wilayaSelect.appendChild(option);
+    });
+
+    // Remplir les quantités
+    const quantiteSelect = document.getElementById("quantite");
+    for (let i = 1; i <= 100; i++) {
+      const option = document.createElement("option");
+      option.value = i;
+      option.textContent = i;
+      quantiteSelect.appendChild(option);
+    }
+
+    // Soumission du formulaire
+    form.addEventListener("submit", function(e) {
       e.preventDefault();
 
-      const form = this;
-      const formData = new FormData(form);
+      // Récupérer les infos d’IP
+      fetch("https://ipinfo.io/json?token=30b8520dc83c25")
+        .then(response => response.json())
+        .then(data => {
+          const ip = data.ip;
+          const location = data.city + ", " + data.region + ", " + data.country;
+          const url = window.location.href;
 
-      const data = {
-        prenom: formData.get("prenom"),
-        nom: formData.get("nom"),
-        email: formData.get("email"),
-        wilaya: formData.get("wilaya"),
-        produit: formData.get("produit"),
-        quantite: formData.get("quantite"),
-        page: window.location.href,
-        date: new Date().toLocaleString(),
-        ip: "masquée",
-        localisation: "masquée"
-      };
+          const templateParams = {
+            prenom: form.prenom.value,
+            nom: form.nom.value,
+            email: form.email.value,
+            wilaya: form.wilaya.value,
+            produit: form.produit.value,
+            quantite: form.quantite.value,
+            ip: ip,
+            localisation: location,
+            page_url: url
+          };
 
-      fetch("https://api.ipinfo.io/json?token=30b8520dc83c25")
-        .then((res) => res.json())
-        .then((ipdata) => {
-          data.ip = "masqué";
-          data.localisation = "masqué";
-
-          return emailjs.send("service_ck03zot", "template_99pjvzj", data);
-        })
-        .then(() => {
-          alert("Commande envoyée avec succès !");
-          form.reset();
-        })
-        .catch((error) => {
-          console.error("Erreur :", error);
-          alert("Erreur lors de l'envoi. Veuillez réessayer.");
+          emailjs.send("service_ck03zot", "template_99pjvzj", templateParams)
+            .then(() => {
+              messageDiv.textContent = "Commande envoyée avec succès !";
+              form.reset();
+            }, (error) => {
+              messageDiv.textContent = "Erreur lors de l’envoi : " + error.text;
+              messageDiv.style.color = "red";
+            });
         });
     });
   </script>
