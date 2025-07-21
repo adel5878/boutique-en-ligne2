@@ -2,165 +2,53 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Commande</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-      background-color: #f8f8f8;
-    }
-    form {
-      max-width: 500px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background-color: #2c3e50;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-    #message {
-      text-align: center;
-      margin-top: 15px;
-      font-weight: bold;
-      color: green;
-    }
-  </style>
 </head>
 <body>
 
-  <form id="order-form">
-    <h2>Formulaire de commande</h2>
+  <div id="order-form-container">
+    <form id="order-form">
+      <h2>Formulaire de commande</h2>
 
-    <label for="prenom">Prénom</label>
-    <input type="text" id="prenom" name="prenom" required>
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" name="prenom" required>
 
-    <label for="nom">Nom</label>
-    <input type="text" id="nom" name="nom" required>
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" name="nom" required>
 
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required>
+      <label for="telephone">Téléphone</label>
+      <input type="tel" id="telephone" name="telephone" required>
 
-    <label for="telephone">Téléphone</label>
-<input type="tel" id="telephone" name="telephone" required>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
 
-    <label for="wilaya">Adresse de livraison</label>
-    <select id="wilaya" name="wilaya" required>
-      <option value="">-- Sélectionner --</option>
-    </select>
+      <label for="wilaya">Wilaya</label>
+      <select id="wilaya" name="wilaya" required>
+        <option value="">-- Sélectionner --</option>
+      </select>
 
-    <label for="produit">Produit</label>
-    <select id="produit" name="produit" required>
-      <option value="">-- Sélectionner --</option>
-      <option value="Routeur">Routeur</option>
-      <option value="Switch">Switch</option>
-      <option value="Câble FTP">Câble FTP</option>
-      <option value="Point d'accès">Point d'accès</option>
-    </select>
+      <label for="produit">Produit</label>
+      <select id="produit" name="produit" required>
+        <option value="">-- Sélectionner --</option>
+        <option value="Routeur">Routeur</option>
+        <option value="Switch">Switch</option>
+        <option value="Câble FTP">Câble FTP</option>
+        <option value="Point d'accès">Point d'accès</option>
+      </select>
 
-    <label for="quantite">Quantité</label>
-    <select id="quantite" name="quantite" required>
-      <option value="">-- Sélectionner --</option>
-    </select>
+      <label for="quantite">Quantité</label>
+      <select id="quantite" name="quantite" required>
+        <option value="">-- Sélectionner --</option>
+      </select>
 
-    <button type="submit">Envoyer la commande</button>
-    <div id="message"></div>
-  </form>
+      <button type="submit">Envoyer la commande</button>
+      <div id="message"></div>
+    </form>
+  </div>
 
-  <script>
-    // Initialisation EmailJS
-    emailjs.init("PRWN5poGo1YbcMfmq");
-
-    const form = document.getElementById("order-form");
-    const messageDiv = document.getElementById("message");
-
-    // Remplir la liste des 58 wilayas
-    const wilayas = [
-      "1-Adrar", "2-Chlef", "3-Laghouat", "4-Oum El Bouaghi", "5-Batna", "6-Béjaïa", "7-Biskra", "8-Béchar",
-      "9-Blida", "10-Bouira", "11-Tamanrasset", "12-Tébessa", "13-Tlemcen", "14-Tiaret", "15-Tizi Ouzou",
-      "16-Alger", "17-Djelfa", "18-Jijel", "19-Sétif", "20-Saïda", "21-Skikda", "22-Sidi Bel Abbès",
-      "23-Annaba", "24-Guelma", "25-Constantine", "26-Médéa", "27-Mostaganem", "28-M’Sila", "29-Mascara",
-      "30-Ghardaïa", "31-Relizane", "32-El Oued", "33-El Tarf", "34-Tindouf", "35-Tissemsilt", "36-El Bayadh",
-      "37-Illizi", "38-Bordj Bou Arréridj", "39-Boumerdès", "40-El Tarf", "41-Tindouf", "42-Tissemsilt",
-      "43-El Bayadh", "44-Illizi", "45-Bordj Badji Mokhtar", "46-Béni Abbès", "47-Timimoun", "48-Touggourt",
-      "49-Djanet", "50-In Salah", "51-In Guezzam", "52-El M'Ghair", "53-El Meniaa", "54-Ouled Djellal",
-      "55-Bordj Baji Mokhtar", "56-Béni Abbès", "57-Timimoun", "58-Touggourt"
-    ];
-    const wilayaSelect = document.getElementById("wilaya");
-    wilayas.forEach(w => {
-      const option = document.createElement("option");
-      option.value = w;
-      option.textContent = w;
-      wilayaSelect.appendChild(option);
-    });
-
-    // Remplir les quantités
-    const quantiteSelect = document.getElementById("quantite");
-    for (let i = 1; i <= 100; i++) {
-      const option = document.createElement("option");
-      option.value = i;
-      option.textContent = i;
-      quantiteSelect.appendChild(option);
-    }
-
-    // Soumission du formulaire
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      // Récupérer les infos d’IP
-      fetch("https://ipinfo.io/json?token=30b8520dc83c25")
-        .then(response => response.json())
-        .then(data => {
-          const ip = data.ip;
-          const location = data.city + ", " + data.region + ", " + data.country;
-          const url = window.location.href;
-
-          const templateParams = {
-            prenom: form.prenom.value,
-            nom: form.nom.value,
-            email: form.email.value,
-            wilaya: form.wilaya.value,
-            produit: form.produit.value,
-            quantite: form.quantite.value,
-            ip: ip,
-            localisation: location,
-            page_url: url
-          };
-
-          emailjs.send("service_ck03zot", "template_99pjvzj", templateParams)
-            .then(() => {
-              messageDiv.textContent = "Commande envoyée avec succès !";
-              form.reset();
-            }, (error) => {
-              messageDiv.textContent = "Erreur lors de l’envoi : " + error.text;
-              messageDiv.style.color = "red";
-            });
-        });
-    });
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
