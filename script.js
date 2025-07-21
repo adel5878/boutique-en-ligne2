@@ -1,5 +1,31 @@
-// Remplir la quantité (1 à 100)
+emailjs.init("PRWN5poGo1YbcMfmq"); // Ton user ID EmailJS
+
+const wilayaSelect = document.getElementById("wilaya");
 const quantiteSelect = document.getElementById("quantite");
+const form = document.getElementById("order-form");
+const messageDiv = document.getElementById("message");
+
+// Liste wilayas
+const wilayas = [
+  "1-Adrar", "2-Chlef", "3-Laghouat", "4-Oum El Bouaghi", "5-Batna", "6-Béjaïa", "7-Biskra", "8-Béchar",
+  "9-Blida", "10-Bouira", "11-Tamanrasset", "12-Tébessa", "13-Tlemcen", "14-Tiaret", "15-Tizi Ouzou",
+  "16-Alger", "17-Djelfa", "18-Jijel", "19-Sétif", "20-Saïda", "21-Skikda", "22-Sidi Bel Abbès",
+  "23-Annaba", "24-Guelma", "25-Constantine", "26-Médéa", "27-Mostaganem", "28-M’Sila", "29-Mascara",
+  "30-Ghardaïa", "31-Relizane", "32-El Oued", "33-El Tarf", "34-Tindouf", "35-Tissemsilt", "36-El Bayadh",
+  "37-Illizi", "38-Bordj Bou Arréridj", "39-Boumerdès", "40-El Tarf", "41-Tindouf", "42-Tissemsilt",
+  "43-El Bayadh", "44-Illizi", "45-Bordj Badji Mokhtar", "46-Béni Abbès", "47-Timimoun", "48-Touggourt",
+  "49-Djanet", "50-In Salah", "51-In Guezzam", "52-El M'Ghair", "53-El Meniaa", "54-Ouled Djellal",
+  "55-Bordj Baji Mokhtar", "56-Béni Abbès", "57-Timimoun", "58-Touggourt"
+];
+
+wilayas.forEach(w => {
+  const option = document.createElement("option");
+  option.value = w;
+  option.textContent = w;
+  wilayaSelect.appendChild(option);
+});
+
+// Quantités
 for (let i = 1; i <= 100; i++) {
   const option = document.createElement("option");
   option.value = i;
@@ -7,68 +33,49 @@ for (let i = 1; i <= 100; i++) {
   quantiteSelect.appendChild(option);
 }
 
-// Référence commande auto générée simple
+// Générer une référence unique
 function genererReference() {
-  const now = Date.now().toString();
-  return "CMD" + now.slice(-6);
+  return "CMD" + Date.now().toString().slice(-6);
 }
 
-const orderFormContainer = document.getElementById("order-form-container");
-const produitSelect = document.getElementById("produit");
-const orderForm = document.getElementById("order-form");
-
-// Afficher le formulaire et sélectionner le produit
-document.querySelectorAll(".btn-commande").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const prodName = btn.getAttribute("data-product");
-    produitSelect.value = prodName;
-    orderFormContainer.style.display = "block";
-    window.scrollTo({ top: orderFormContainer.offsetTop, behavior: "smooth" });
-  });
-});
-
-// Envoi du formulaire
-orderForm.addEventListener("submit", function (e) {
+// Soumission
+form.addEventListener("submit", function (e) {
   e.preventDefault();
 
   const refCommande = genererReference();
-
-  // Infos système simples
-  const userAgent = navigator.userAgent;
-  const os = navigator.platform;
-  const type = /Mobi|Android/i.test(userAgent) ? "Mobile" : "Desktop";
 
   fetch("https://ipinfo.io/json?token=30b8520dc83c25")
     .then(response => response.json())
     .then(data => {
       const templateParams = {
         order_reference: refCommande,
-        produit: produitSelect.value,
-        wilaya: this.wilaya.value,
-        quantite: this.quantite.value,
         prenom: this.prenom.value,
         nom: this.nom.value,
+        phone: this.telephone.value,
         user_email: this.email.value,
-        phone: this.telephone ? this.telephone.value : "non fourni",
+        wilaya: this.wilaya.value,
+        product: this.produit.value,
+        quantity: this.quantite.value,
         timestamp: new Date().toLocaleString(),
         site_url: window.location.href,
-        client_device: userAgent,
-        client_os: os,
-        client_type: type,
-        client_model: "non détecté", // Pour mobile, ajouter lib si besoin
+        client_device: navigator.userAgent,
+        client_os: navigator.platform,
+        client_type: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+        client_model: "non détecté",
         client_ip_public: data.ip,
         client_ip_local: "non détectée",
-        client_geo: `${data.city}, ${data.region}, ${data.country}`,
+        client_geo: `${data.city}, ${data.region}, ${data.country}`
       };
 
       emailjs.send("service_ck03zot", "template_99pjvzj", templateParams)
         .then(() => {
-          alert(`Commande envoyée avec succès !\nRéférence: ${refCommande}`);
-          orderForm.reset();
-          orderFormContainer.style.display = "none";
+          messageDiv.textContent = "✅ Commande envoyée avec succès !";
+          messageDiv.style.color = "green";
+          form.reset();
         })
         .catch((err) => {
-          alert("Erreur lors de l'envoi : " + (err.text || err));
+          messageDiv.textContent = "❌ Erreur lors de l'envoi : " + (err.text || err);
+          messageDiv.style.color = "red";
         });
     });
 });
