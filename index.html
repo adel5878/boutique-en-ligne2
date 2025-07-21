@@ -9,7 +9,33 @@
 </head>
 <body>
 
-  <div id="order-form-container">
+  <!-- SECTION PRODUITS -->
+  <section class="produits">
+    <h1>Nos Produits</h1>
+    <div class="produit-liste">
+      <div class="produit">
+        <img src="images/hikvision-camera.jpg" alt="Caméra Hikvision">
+        <h3>Caméra Hikvision</h3>
+        <p class="prix">5000 DA</p>
+        <button class="btn-commande" data-produit="Caméra Hikvision">Commander</button>
+      </div>
+      <div class="produit">
+        <img src="images/netgear-switch.jpg" alt="Switch Netgear">
+        <h3>Switch Netgear</h3>
+        <p class="prix">5000 DA</p>
+        <button class="btn-commande" data-produit="Switch Netgear">Commander</button>
+      </div>
+      <div class="produit">
+        <img src="images/tp-link.jpg" alt="Routeur TP-Link">
+        <h3>Routeur TP-Link</h3>
+        <p class="prix">5000 DA</p>
+        <button class="btn-commande" data-produit="Routeur TP-Link">Commander</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULAIRE DE COMMANDE -->
+  <div id="order-form-container" style="display:none">
     <form id="order-form">
       <h2>Formulaire de commande</h2>
 
@@ -37,6 +63,9 @@
         <option value="Switch">Switch</option>
         <option value="Câble FTP">Câble FTP</option>
         <option value="Point d'accès">Point d'accès</option>
+        <option value="Caméra Hikvision">Caméra Hikvision</option>
+        <option value="Switch Netgear">Switch Netgear</option>
+        <option value="Routeur TP-Link">Routeur TP-Link</option>
       </select>
 
       <label for="quantite">Quantité</label>
@@ -50,5 +79,23 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    // Gérer le bouton Commander
+    document.querySelectorAll(".btn-commande").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const produit = btn.getAttribute("data-produit");
+        const produitSelect = document.getElementById("produit");
+        produitSelect.value = produit;
+
+        const formContainer = document.getElementById("order-form-container");
+        formContainer.style.display = "block";
+
+        window.scrollTo({
+          top: formContainer.offsetTop,
+          behavior: "smooth"
+        });
+      });
+    });
+  </script>
 </body>
 </html>
