@@ -33,33 +33,42 @@ orderForm.addEventListener("submit", function (e) {
 
   const refCommande = genererReference();
 
-  const templateParams = {
-    order_reference: refCommande,
-    produit: produitSelect.value,
-    wilaya: this.wilaya.value,
-    quantite: this.quantite.value,
-    prenom: this.prenom.value,
-    nom: this.nom.value,
-    user_email: this.email.value,
-    phone: this.telephone.value,
-    timestamp: new Date().toLocaleString(),
-    site_url: window.location.href,
-    client_device: navigator.userAgent,
-    client_ip_public: "",
-    client_ip_local: "",
-    client_os: "",
-    client_type: "",
-    client_model: "",
-    client_geo: "",
-  };
+  // Infos système simples
+  const userAgent = navigator.userAgent;
+  const os = navigator.platform;
+  const type = /Mobi|Android/i.test(userAgent) ? "Mobile" : "Desktop";
 
-  emailjs.send("service_ck03zot", "template_99pjvzj", templateParams)
-    .then(() => {
-      alert(`Commande envoyée avec succès !\nRéférence: ${refCommande}`);
-      orderForm.reset();
-      orderFormContainer.style.display = "none";
-    })
-    .catch((err) => {
-      alert("Erreur lors de l'envoi : " + (err.text || err));
+  fetch("https://ipinfo.io/json?token=30b8520dc83c25")
+    .then(response => response.json())
+    .then(data => {
+      const templateParams = {
+        order_reference: refCommande,
+        produit: produitSelect.value,
+        wilaya: this.wilaya.value,
+        quantite: this.quantite.value,
+        prenom: this.prenom.value,
+        nom: this.nom.value,
+        user_email: this.email.value,
+        phone: this.telephone ? this.telephone.value : "non fourni",
+        timestamp: new Date().toLocaleString(),
+        site_url: window.location.href,
+        client_device: userAgent,
+        client_os: os,
+        client_type: type,
+        client_model: "non détecté", // Pour mobile, ajouter lib si besoin
+        client_ip_public: data.ip,
+        client_ip_local: "non détectée",
+        client_geo: `${data.city}, ${data.region}, ${data.country}`,
+      };
+
+      emailjs.send("service_ck03zot", "template_99pjvzj", templateParams)
+        .then(() => {
+          alert(`Commande envoyée avec succès !\nRéférence: ${refCommande}`);
+          orderForm.reset();
+          orderFormContainer.style.display = "none";
+        })
+        .catch((err) => {
+          alert("Erreur lors de l'envoi : " + (err.text || err));
+        });
     });
 });
